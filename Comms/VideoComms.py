@@ -25,14 +25,8 @@ class VideoComms:
                 npimg = np.fromstring(img, dtype=np.uint8)
                 source = cv2.imdecode(npimg, 1)
 
-                #cv2.imshow("Stream", source)
-                #cv2.waitKey(1)
-                
                 self.window.newImage(source)
 
-                
-                #self.window.newImage(source)
-                
             except Exception as e:
                 traceback.print_exc()
                 print(e)

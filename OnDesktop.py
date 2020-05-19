@@ -3,8 +3,8 @@ import tkinter
 from UI.MainWindow import *
 from Events.MovementEvents import *
 import Events.MovementEvents as de
-from VideoComms import *
-import VideoComms as c
+from Comms.VideoComms import *
+import Comms.VideoComms as c
 import threading
 
 
