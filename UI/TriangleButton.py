@@ -2,28 +2,33 @@ from tkinter import *
 import tkinter as tk
 
 class TriangleButton(tk.Canvas):
-    def __init__(self, parent, width, height, direction, color='gray', command=None):
-        tk.Canvas.__init__(self, parent, borderwidth=1,  relief="raised", highlightthickness=0)
+    def __init__(self, master, direction, color='gray', command=None):
+        tk.Canvas.__init__(self, master, borderwidth=1,  relief="raised", highlightthickness=0)
         self.command = command
-
-        padding = 4
-
-        if direction == 'down':
-            self.create_polygon([padding,padding, width+padding, padding , (width/2) + padding , height+padding], outline=color, fill=color, width=2)
-        elif direction == 'up':
-            self.create_polygon([(width/2)+padding,padding,padding,height+padding,width+padding,height+padding], outline=color, fill=color, width=2)
-        elif direction == 'left':
-            self.create_polygon([padding, (height/2)+ padding, width+padding, padding, width+padding, height+padding], outline=color, fill=color, width=2)
-        elif direction == 'right':
-            self.create_polygon([padding, padding, width+padding, (height/2)+padding, padding, height+padding], outline=color, fill=color, width=2)
-
-        #self.pack()
-        (x0,y0,x1,y1)  = self.bbox("all")
-        width = (x1-x0) + padding
-        height = (y1-y0) + padding
-        self.configure(width=width, height=height)  
+        self.width = 10
+        self.height = 10
+        self.direction = direction
+        self.color = color
+        
         self.bind("<ButtonPress-1>", self._on_press)
         self.bind("<ButtonRelease-1>", self._on_release)
+        self.bind('<Configure>', self._on_resize)
+        self.draw()
+
+    def draw(self):
+        self.delete('all')
+
+        if self.direction == 'down':
+            self.create_polygon([0,0, self.width, 0 , (self.width/2), self.height], outline=self.color, fill=self.color, width=2)
+        elif self.direction == 'up':
+            self.create_polygon([(self.width/2),0,0,self.height,self.width,self.height], outline=self.color, fill=self.color, width=2)
+        elif self.direction == 'left':
+            self.create_polygon([0, (self.height/2), self.width, 0, self.width, self.height], outline=self.color, fill=self.color, width=2)
+        elif self.direction == 'right':
+            self.create_polygon([0, 0, self.width, (self.height/2), 0, self.height], outline=self.color, fill=self.color, width=2)
+
+        self.configure(width=self.width, height=self.height)  
+
 
     def _on_press(self, event):
         self.configure(relief="sunken")
@@ -32,3 +37,9 @@ class TriangleButton(tk.Canvas):
         self.configure(relief="raised")
         if self.command is not None:
             self.command()
+
+    def _on_resize(self, event):
+        self.width = event.width
+        self.height = event.height
+        self.draw()
+        self.config(width=event.width, height=event.height)

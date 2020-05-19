@@ -1,4 +1,4 @@
-class DesktoEvents():
+class MovementEvents():
 
     def __init__(self, comms):
         self.socket = comms
