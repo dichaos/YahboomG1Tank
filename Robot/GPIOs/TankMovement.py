@@ -62,4 +62,4 @@ class MotorControl:
         if speed > 100: 
             speed = 100
 
-        self.pwm_ENA.ChangeDutyCycle(50)
+        self.pwm_ENA.ChangeDutyCycle(speed)

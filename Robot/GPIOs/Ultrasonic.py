@@ -4,10 +4,10 @@ import threading
 import traceback
 
 class Ultrasonic:
-    def __init__(self):
+    def __init__(self, streamer = None):
         self.EchoPin = 0
         self.TrigPin = 1
-        
+        self.streamer = streamer
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.EchoPin,GPIO.IN)
@@ -44,6 +44,10 @@ class Ultrasonic:
     def Loop(self):
         while self.loop == 1:
             dist = self.distance()
+            
+            if self.streamer is not None:
+                self.streamer.Send(str(dist))
+
             print ("Distance = %.1f cm" % dist)
             time.sleep(1)
         

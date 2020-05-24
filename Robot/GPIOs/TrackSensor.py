@@ -3,7 +3,8 @@ import threading
 import time
 
 class TrackSensor:
-    def __init__(self):
+    def __init__(self, streamer = None):
+        self.streamer = streamer
         self.TrackSensorLeftPin1  =  3   #The first tracking infrared sensor pin on the left is connected to  BCM port 3 of Raspberry pi
         self.TrackSensorLeftPin2  =  5   #The second tracking infrared sensor pin on the left is connected to  BCM port 5 of Raspberry pi
         self.TrackSensorRightPin1 =  4   #The first tracking infrared sensor pin on the right is connected to  BCM port 4 of Raspberry pi
@@ -34,6 +35,10 @@ class TrackSensor:
     def Loop(self):
         while self.loop == 1:
             track = self.tracking_test()
+            
+            if self.streamer is not None:
+                self.streamer.Send(track)
+
             print ("Tracking = " , track)
             time.sleep(1)
         

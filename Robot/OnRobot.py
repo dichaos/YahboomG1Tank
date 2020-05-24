@@ -5,6 +5,7 @@ import GPIOs.Beeper as Beeper
 import GPIOs.Ultrasonic as Ultrasonic
 import GPIOs.TrackSensor as TrackSensor
 import VideoStreamer
+import Streamer
 import time
 import atexit
 
@@ -24,10 +25,19 @@ ultraSonic = Servos.UltrasonicServo()
 cameraHorizontal = Servos.CameraHorizontalServo()
 cameraVertical = Servos.CameraVerticalServo()
 beeper = Beeper.Beeper()
-ultrasonic = Ultrasonic.Ultrasonic()
+
 led = LED.LED()
-trackSensor = TrackSensor.TrackSensor()
+
+# Start streaming video
 videoStreamer = VideoStreamer.VideoStreamer('tcp://192.168.1.16:5555')
+
+# Start streaming Ultrasonic sensor values
+ultrasonicStreamer = Streamer.Streamer('tcp://192.168.1.16:6666')
+ultrasonic = Ultrasonic.Ultrasonic(ultrasonicStreamer)
+
+
+infraredStreamer = Streamer.Streamer('tcp://192.168.1.16:7777')
+trackSensor = TrackSensor.TrackSensor(infraredStreamer)
 
 trackSensor.start()
 ultrasonic.start()
