@@ -7,6 +7,7 @@ import base64
 import PIL.Image
 import PIL.ImageTk
 import traceback
+import threading
 
 class VideoComms:
     def __init__(self, window):
@@ -17,7 +18,7 @@ class VideoComms:
         
         self.window = window
         
-    def start(self):
+    def Loop(self):
         while True:
             try:
                 frame = self.sock.recv_string()
@@ -32,5 +33,10 @@ class VideoComms:
                 print(e)
                 cv2.destroyAllWindows()
                 break
+
+    def start(self):
+        thread = threading.Thread(target=self.Loop)
+        thread.daemon = True       
+        thread.start()     
 
 

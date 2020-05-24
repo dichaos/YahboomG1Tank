@@ -22,3 +22,4 @@ class MovementEvents():
     def MoveStop(self, event):
         print("Single Click, Move Stopped")
         self.socket.Send("Stop")
+
