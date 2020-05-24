@@ -46,3 +46,6 @@ class UltrasonicFrame(tk.LabelFrame):
 
     def motor_stop_callback(self, stop):
         self.stop_callback = stop
+
+    def ultrasonicValue(self, value):
+        print(value)

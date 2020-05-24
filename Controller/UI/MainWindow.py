@@ -57,3 +57,9 @@ class MainWindow(Frame):
 
     def newImage(self, image):
         self.CameraFrame.new_image(LastImage=image)
+    
+    def ultraSonicValue(self, value):
+        self.ultrasonicPanel.ultrasonicValue(value)
+
+    def infraredValue(self, value):
+        print(value)

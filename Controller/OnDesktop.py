@@ -5,11 +5,8 @@ from Events.MovementEvents import *
 import Events.MovementEvents as de
 from Comms.VideoComms import *
 import Comms.VideoComms as c
-
-
-
-def start_thread(socket):
-    socket.start()
+import Comms.UtrasonicComms as u
+import Comms.InfraredComms as i
 
 root = Tk()
 
@@ -19,8 +16,9 @@ root.minsize(800, 600)
 app = MainWindow(root)
 
 #create comms
-socket = c.VideoComms(app)
-
+videoStream = c.VideoComms('tcp://*:5555', app)
+ultrasonicStream = u.UltrasonicComms('tcp://*:6666', app)
+infraredStream = i.InfraredComms('tcp://*:7777', app)
 
 events = MovementEvents(None)
 
@@ -31,7 +29,10 @@ app.movement_left_Button_callback(events.MoveLeft)
 app.movement_right_Button_callback(events.MoveRight)
 app.movement_motor_stop_callback(events.MoveStop)
    
-socket.start()
+videoStream.start()
+ultrasonicStream.start()
+infraredStream.start()
+
 root.mainloop()
 
 
