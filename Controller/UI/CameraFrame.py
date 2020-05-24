@@ -8,10 +8,10 @@ from PIL import *
 
 
 class CameraFrame(LabelFrame):
-    def __init__(self, master, width, height, text):
+    def __init__(self, master, width, height, text, movementComms):
         super(CameraFrame, self).__init__(master, width = width, height = height, text = text)
 
-        self.CameraMovementPanel = MovementFrame(self, width=135, height=135, text="Movement")
+        self.CameraMovementPanel = MovementFrame(self, width=135, height=135, text="Movement",  movementComms=movementComms)
         self.CameraMovementPanel.grid(row=0, column=0,sticky='nw')
         #self.CameraMovementPanel.pack(side="left")
 

@@ -3,9 +3,10 @@ import tkinter as tk
 from UI.TriangleButton import *
 
 class MovementFrame(tk.LabelFrame):
-    def __init__(self, master, width, height, text):
+    def __init__(self, master, width, height, text, movementComms):
         super(MovementFrame, self).__init__(master, width = width, height = height, text = text)
-        
+        self.movementComms = movementComms
+
         upButton = TriangleButton(self, 'up')
         downButton = TriangleButton(self, 'down')
         leftButton = TriangleButton(self, 'left')
@@ -44,31 +45,16 @@ class MovementFrame(tk.LabelFrame):
         self.config(width=event.width, height=event.height)
 
     def upButton(self, t):
-        self.up_callback(self)
+        self.movementComms.MoveForward()
     
-    def downButton(self):
-        self.down_callback(self)
+    def downButton(self, t):
+        self.movementComms.MoveBackwards()
 
-    def leftButton(self):
-        self.left_callback(self)
+    def leftButton(self, t):
+        self.movementComms.MoveLeft()
 
-    def rightButton(self):
-        self.right_callback(self)
+    def rightButton(self, t):
+        self.movementComms.MoveRight()
 
     def stop_motor(self, t):
-        self.stop_callback(self)
-
-    def up_Button_callback(self, forward):
-        self.up_callback = forward
-
-    def down_Button_callback(self, backward):
-        self.down_callback = backward
-
-    def left_Button_callback(self, left):
-        self.left_callback = left
-
-    def right_Button_callback(self, right):
-        self.right_callback = right
-
-    def motor_stop_callback(self, stop):
-        self.stop_callback = stop
+        self.movementComms.MoveStop()

@@ -7,8 +7,7 @@ from UI.UltrasonicFrame import *
 import os
 
 class MainWindow(Frame):
-
-    def __init__(self, master=None):
+    def __init__(self, master, movementComms, cameraMovementComms):
         Frame.__init__(self, master)               
         self.master = master
         
@@ -24,13 +23,13 @@ class MainWindow(Frame):
         ConnectionPanel = ConnectionFrame(self, width = 135, height = 5, text = "Connection")
         ConnectionPanel.grid(row=0, column =0, columnspan = 2, sticky="nsew")
         
-        self.MovementPanel = MovementFrame(self, width=135, height=145, text="Tank Movement")
+        self.MovementPanel = MovementFrame(self, width=135, height=145, text="Tank Movement", movementComms=movementComms)
         self.MovementPanel.grid(row = 1, column = 0)
         
         self.ultrasonicPanel = UltrasonicFrame(self, width=135, height=145, text="Ultrasonic Sensor")
         self.ultrasonicPanel.grid(row = 1, column =1, sticky = "nw")
         
-        self.CameraFrame = CameraFrame(self, 150,150, "Camera")
+        self.CameraFrame = CameraFrame(self, 150,150, "Camera", movementComms=cameraMovementComms)
         self.CameraFrame.pack_propagate(0)
         self.CameraFrame.grid(row =2, column = 0, columnspan=2, sticky="nsew", padx =5, pady = 5)
 
