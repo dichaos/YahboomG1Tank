@@ -44,7 +44,7 @@ class Ultrasonic:
     def Loop(self):
         while self.loop == 1:
             dist = self.distance()
-            print ("Measured Distance = %.1f cm" % dist)
+            print ("Distance = %.1f cm" % dist)
             time.sleep(1)
         
         GPIO.cleanup()
