@@ -3,9 +3,9 @@ import tkinter as tk
 from UI.TriangleButton import *
 
 class UltrasonicFrame(tk.LabelFrame):
-    def __init__(self, master, width, height, text):
+    def __init__(self, master, width, height, text, movementComms):
         super(UltrasonicFrame, self).__init__(master, width = width, height = height, text = text, bg="green")
-        
+        self.movementComms = movementComms
         leftButton = TriangleButton(self, 'left')
         rightButton = TriangleButton(self, 'right')
 
@@ -29,23 +29,11 @@ class UltrasonicFrame(tk.LabelFrame):
     def _on_resize(self, event):
         self.config(width=event.width, height=event.height)
 
-    def leftButton(self):
-        self.left_callback(self)
+    def leftButton(self, t):
+        self.movementComms.UltrasonicLeft()
 
-    def rightButton(self):
-        self.right_callback(self)
+    def rightButton(self, t):
+        self.movementComms.UltrasonicRight()
 
     def stop_motor(self, t):
-        self.stop_callback(self)
-
-    def left_Button_callback(self, left):
-        self.left_callback = left
-
-    def right_Button_callback(self, right):
-        self.right_callback = right
-
-    def motor_stop_callback(self, stop):
-        self.stop_callback = stop
-
-    def ultrasonicValue(self, value):
-        print(value)
+        self.movementComms.UltrasonicStop()

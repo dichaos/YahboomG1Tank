@@ -71,3 +71,15 @@ class MovementComms():
         print("Camera Left Right stop")
         self.socket.Send("CameraLeftRightStop")
 
+    def UltrasonicLeft(self):
+        print("Ultrasonic Left")
+        self.socket.Send("UltrasonicLeft")
+
+    def UltrasonicRight(self):
+        print("Ultrasonic Right")
+        self.socket.Send("UltrasonicRight")
+
+    def UltrasonicStop(self):
+        print("Ultrasonic Stop")
+        self.socket.Send("UltrasonicStop")
+

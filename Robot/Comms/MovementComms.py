@@ -6,10 +6,11 @@ import threading
 import numpy as np
 
 class MovementComms:
-    def __init__(self, url, movement, cameraVertical, cameraHorizontal):
+    def __init__(self, url, movement, cameraVertical, cameraHorizontal, ultrasonicMovement):
         self.movement = movement
         self.cameraVertical = cameraVertical
         self.cameraHorizontal = cameraHorizontal
+        self.ultrasonicMovement = ultrasonicMovement
 
         self.context = zmq.Context()
         self.sock = self.context.socket(zmq.PAIR)
@@ -57,6 +58,13 @@ class MovementComms:
                     self.cameraHorizontal.StartMoveRight()
                 elif frame=='CameraLeftRightStop':
                     self.cameraHorizontal.Stop()
+                elif frame=='UltrasonicLeft':
+                    self.ultrasonicMovement.StartMoveLeft()
+                elif frame=='UltrasonicRight':
+                    self.ultrasonicMovement.StartMoveRight()
+                elif frame=='UltrasonicStop':
+                    self.ultrasonicMovement.Stop()
+
 
             except Exception as e:
                 traceback.print_exc()

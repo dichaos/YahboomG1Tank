@@ -25,7 +25,7 @@ def cleanup(servo1, servo2, servo3, led, beeper, video, track, movement):
     print("cleaned up")
 
 movement = TankMovement.TankMovement()
-ultraSonic = Servos.UltrasonicServo()
+ultraSonicMover = Servos.UltrasonicServo()
 cameraHorizontal = Servos.CameraHorizontalServo()
 cameraVertical = Servos.CameraVerticalServo()
 buzzer = Buzzer.Buzzer()
@@ -46,10 +46,10 @@ trackSensor.start()
 ultrasonic.start()
 videoStreamer.start()
 
-movementStream = movementComms.MovementComms('tcp://192.168.1.16:9999', movement, cameraVertical, cameraHorizontal)
+movementStream = movementComms.MovementComms('tcp://192.168.1.16:9999', movement, cameraVertical, cameraHorizontal, ultraSonicMover)
 movementStream.start()
 
-atexit.register(cleanup, ultraSonic, cameraHorizontal, cameraVertical, led, buzzer, videoStreamer, trackSensor, movementStream)
+atexit.register(cleanup, ultraSonicMover, cameraHorizontal, cameraVertical, led, buzzer, videoStreamer, trackSensor, movementStream)
 
 print("All started")
 buzzer.Buzz()
@@ -59,3 +59,4 @@ buzzer.stop()
 k=input("press close to exit") 
 
 
+ 
