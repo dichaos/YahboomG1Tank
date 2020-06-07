@@ -17,11 +17,9 @@ root.minsize(800, 600)
 
 #create write comms
 movementStream = s.Streamer('tcp://*:9999')
-cameraMovementStream = s.Streamer('tcp://*:1234')
 movement = m.MovementComms(movementStream)
-cameraMovement = m.MovementComms(cameraMovementStream)
 
-app = mainWindow.MainWindow(root, movement, cameraMovement)
+app = mainWindow.MainWindow(root, movement)
 
 #create read comms
 videoStream = c.VideoComms('tcp://*:5555', app)

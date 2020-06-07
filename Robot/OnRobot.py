@@ -46,7 +46,7 @@ trackSensor.start()
 ultrasonic.start()
 videoStreamer.start()
 
-movementStream = movementComms.MovementComms('tcp://192.168.1.16:9999', movement)
+movementStream = movementComms.MovementComms('tcp://192.168.1.16:9999', movement, cameraVertical, cameraHorizontal)
 movementStream.start()
 
 atexit.register(cleanup, ultraSonic, cameraHorizontal, cameraVertical, led, buzzer, videoStreamer, trackSensor, movementStream)

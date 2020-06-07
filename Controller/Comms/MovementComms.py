@@ -43,3 +43,31 @@ class MovementComms():
         print("SetSpeed = ", speed)
         self.socket.Send("Speed=" + str(speed))
 
+    def CameraUp(self):
+        print("CameraUp")
+        self.socket.Send("CameraUp")
+
+    def CameraDown(self):
+        print("CameraDown")
+        self.socket.Send("CameraDown")
+
+    def CameraLeft(self):
+        print("CameraLeft")
+        self.socket.Send("CameraLeft")
+    
+    def CameraRight(self):
+        print("CameraRight")
+        self.socket.Send("CameraRight")
+
+    def CameraReset(self):
+        print("CameraReset")
+        self.socket.Send("CameraReset")
+
+    def CameraUpDownStop(self):
+        print("Camera Up Down stop")
+        self.socket.Send("CameraUpDownStop")
+
+    def CameraLeftRightStop(self):
+        print("Camera Left Right stop")
+        self.socket.Send("CameraLeftRightStop")
+

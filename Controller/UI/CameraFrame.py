@@ -3,7 +3,7 @@ import numpy as np
 import imutils
 from PIL import ImageTk, Image
 from tkinter import Tk, LabelFrame, Label
-from UI.MovementFrame import MovementFrame
+from UI.CameraMovementFrame import CameraMovementFrame
 from PIL import *
 
 
@@ -11,12 +11,10 @@ class CameraFrame(LabelFrame):
     def __init__(self, master, width, height, text, movementComms):
         super(CameraFrame, self).__init__(master, width = width, height = height, text = text)
 
-        self.CameraMovementPanel = MovementFrame(self, width=135, height=135, text="Movement",  movementComms=movementComms)
+        self.CameraMovementPanel = CameraMovementFrame(self, width=135, height=135, text="Movement",  movementComms=movementComms)
         self.CameraMovementPanel.grid(row=0, column=0,sticky='nw')
-        #self.CameraMovementPanel.pack(side="left")
 
         self.CameraFrame = LabelFrame(self, width = 135, height = 145, text = "Video", padx=0, pady=0)
-        #self.CameraFrame.pack(side="bottom", fill="both", expand = 1)
         self.CameraFrame.grid(row=0,column=1,sticky='nsew')
         
         self.Video = Label(self.CameraFrame, anchor ='nw',padx=0, pady=0)
