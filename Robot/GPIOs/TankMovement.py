@@ -13,7 +13,7 @@ class TankMovement():
         self.motor1.Forward()
         self.motor2.Forward()
 
-    def Backward(self):
+    def Backwards(self):
         self.motor1.Backward()
         self.motor2.Backward()
     

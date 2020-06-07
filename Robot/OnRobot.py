@@ -1,16 +1,19 @@
 import GPIOs.TankMovement as TankMovement
 import GPIOs.Servos as Servos
 import GPIOs.LEDs as LED
-import GPIOs.Beeper as Beeper
+import GPIOs.Buzzer as Buzzer
 import GPIOs.Ultrasonic as Ultrasonic
 import GPIOs.TrackSensor as TrackSensor
 import VideoStreamer
 import Streamer
 import time
 import atexit
+import RPi.GPIO as GPIO
+import Comms.MovementComms as movementComms
 
 
-def cleanup(servo1, servo2, servo3, led, beeper, video, track):
+def cleanup(servo1, servo2, servo3, led, beeper, video, track, movement):
+    movement.stop()
     servo1.stop()
     servo2.stop()
     servo3.stop()
@@ -18,13 +21,14 @@ def cleanup(servo1, servo2, servo3, led, beeper, video, track):
     beeper.stop()
     video.stop()
     track.stop()
+    GPIO.cleanup()
     print("cleaned up")
 
 movement = TankMovement.TankMovement()
 ultraSonic = Servos.UltrasonicServo()
 cameraHorizontal = Servos.CameraHorizontalServo()
 cameraVertical = Servos.CameraVerticalServo()
-beeper = Beeper.Beeper()
+buzzer = Buzzer.Buzzer()
 
 led = LED.LED()
 
@@ -35,7 +39,6 @@ videoStreamer = VideoStreamer.VideoStreamer('tcp://192.168.1.16:5555')
 ultrasonicStreamer = Streamer.Streamer('tcp://192.168.1.16:6666')
 ultrasonic = Ultrasonic.Ultrasonic(ultrasonicStreamer)
 
-
 infraredStreamer = Streamer.Streamer('tcp://192.168.1.16:7777')
 trackSensor = TrackSensor.TrackSensor(infraredStreamer)
 
@@ -43,9 +46,16 @@ trackSensor.start()
 ultrasonic.start()
 videoStreamer.start()
 
-atexit.register(cleanup, ultraSonic, cameraHorizontal, cameraVertical, led, beeper, videoStreamer, trackSensor)
+movementStream = movementComms.MovementComms('tcp://192.168.1.16:9999', movement)
+movementStream.start()
+
+atexit.register(cleanup, ultraSonic, cameraHorizontal, cameraVertical, led, buzzer, videoStreamer, trackSensor, movementStream)
 
 print("All started")
+buzzer.Buzz()
+time.sleep(0.5)
+buzzer.stop()
+
 k=input("press close to exit") 
 
 

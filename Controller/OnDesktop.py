@@ -16,8 +16,8 @@ root.minsize(800, 600)
 
 
 #create write comms
-movementStream = s.Streamer('tcp://192.168.1.28:8888')
-cameraMovementStream = s.Streamer('tcp://192.168.1.28:9999')
+movementStream = s.Streamer('tcp://*:9999')
+cameraMovementStream = s.Streamer('tcp://*:1234')
 movement = m.MovementComms(movementStream)
 cameraMovement = m.MovementComms(cameraMovementStream)
 

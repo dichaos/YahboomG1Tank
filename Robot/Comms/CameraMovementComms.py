@@ -6,9 +6,10 @@ import traceback
 import threading
 import numpy as np
 
-class InfraredComms:
-    def __init__(self, url, window):
-        self.window = window
+class CameraMovementComms:
+    def __init__(self, url, cameraHorizontal, cameraVertical):
+        self.cameraHorizontal = cameraHorizontal
+        self.cameraVertical = cameraVertical
         self.context = zmq.Context()
         self.sock = self.context.socket(zmq.SUB)
         self.sock.bind(url)
@@ -18,7 +19,7 @@ class InfraredComms:
         while True:
             try:
                 frame = self.sock.recv_string()
-                self.window.infraredValue(frame)
+                #self.window.infraredValue(frame)
 
             except Exception as e:
                 traceback.print_exc()

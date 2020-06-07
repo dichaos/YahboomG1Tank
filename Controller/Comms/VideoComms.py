@@ -11,16 +11,17 @@ import threading
 
 class VideoComms:
     def __init__(self, url, window):
+        self.window = window
+
         self.context = zmq.Context()
         self.sock = self.context.socket(zmq.SUB)
-        #self.sock.bind('tcp://*:5555')
         self.sock.bind(url)
         self.sock.setsockopt_string(zmq.SUBSCRIBE, np.unicode(''))
         
-        self.window = window
+        self.loop = 1
         
     def Loop(self):
-        while True:
+        while self.loop == 1:
             try:
                 frame = self.sock.recv_string()
                 img = base64.b64decode(frame)
@@ -38,6 +39,9 @@ class VideoComms:
     def start(self):
         thread = threading.Thread(target=self.Loop)
         thread.daemon = True       
-        thread.start()     
+        thread.start()
+
+    def stop(self):
+        self.loop = 0
 
 

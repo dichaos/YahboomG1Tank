@@ -42,8 +42,6 @@ class TrackSensor:
             print ("Tracking = " , track)
             time.sleep(1)
         
-        GPIO.cleanup()
-
     def start(self):
         self.loop = 1
         thread = threading.Thread(target=self.Loop)

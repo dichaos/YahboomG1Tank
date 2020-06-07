@@ -51,8 +51,6 @@ class Ultrasonic:
             print ("Distance = %.1f cm" % dist)
             time.sleep(1)
         
-        GPIO.cleanup()
-
     def start(self):
         self.loop = 1
         thread = threading.Thread(target=self.Loop)
