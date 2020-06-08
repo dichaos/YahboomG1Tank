@@ -27,6 +27,7 @@ videoStream = c.VideoComms('tcp://*:5555', app)
 ultrasonicStream = u.UltrasonicComms('tcp://*:6666', app)
 infraredStream = i.InfraredComms('tcp://*:7777', app)
 
+movementStream.start()
 videoStream.start()
 ultrasonicStream.start()
 infraredStream.start()
