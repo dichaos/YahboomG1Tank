@@ -1,5 +1,3 @@
-from tkinter import *
-import tkinter
 from sys import platform
 from Comms.VideoComms import *
 import Comms.VideoComms as c
@@ -17,7 +15,6 @@ root.resizable(False, False)
 
 if platform != "win32":
     root.overrideredirect(1)
-
 
 #create write comms
 movementStream = s.Streamer('tcp://*:9999')

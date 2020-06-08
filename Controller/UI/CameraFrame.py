@@ -18,9 +18,11 @@ class CameraFrame(LabelFrame):
 
         self.HorizontalSlider = Scale(self, from_=2500, to=500, orient =HORIZONTAL, command=self.updateHorizontal)
         self.VerticalSlider = Scale(self, from_=2500, to=500, command=self.updateVertical)
-
+        self.CenterButton = Button(self, text="Center", command=self.center)
+        
         self.HorizontalSlider.grid(row = 0, column = 1, sticky = NSEW)
         self.VerticalSlider.grid(row = 1, column = 0, sticky = NSEW)
+        self.CenterButton.grid(row = 0, column = 0, sticky = NSEW, ipadx=2, ipady =2)
 
         self.HorizontalSlider.set(1500)
         self.VerticalSlider.set(1500)
@@ -79,6 +81,6 @@ class CameraFrame(LabelFrame):
     def sendUpdateVerticalValue(self):
         self.movementComms.CameraUpDownSetValue(self.VerticalSlider.get())
 
-        
-
-
+    def center(self):
+        self.HorizontalSlider.set(1500)
+        self.VerticalSlider.set(1500)
