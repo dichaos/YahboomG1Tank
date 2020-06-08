@@ -5,6 +5,7 @@ from UI.ConnectionFrame import *
 from UI.CameraFrame import *
 from UI.UltrasonicFrame import *
 from UI.TrackSensorFrame import *
+from UI.LedColorFrame import *
 import os
 
 class MainWindow(Frame):
@@ -32,10 +33,13 @@ class MainWindow(Frame):
 
         self.trackSensorFrame = TrackSensorFrame(self, width=310, height = 45, text = "Tracking Sensor")
         self.trackSensorFrame.grid(row = 3, column = 0, sticky ="nw")
+
+        self.ledColorFrame = LedColorFrame(self, width= 310, height = 200, text = "Headlights", movementComms=movementComms)
+        self.ledColorFrame.grid(row=4, column=0, sticky ="nw")
         
         self.CameraFrame = CameraFrame(self, 152,150, "Camera", movementComms=movementComms)
         self.CameraFrame.pack_propagate(0)
-        self.CameraFrame.grid(row =0, column = 1, rowspan=4, sticky="nsew", padx =2, pady = 5)
+        self.CameraFrame.grid(row =0, column = 1, rowspan=5, sticky="nsew", padx =2, pady = 5)
 
     def newImage(self, image):
         self.CameraFrame.new_image(LastImage=image)

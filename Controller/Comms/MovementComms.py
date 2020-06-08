@@ -51,4 +51,7 @@ class MovementComms():
 
     def UltrsonicSetValue(self, value):
         self.socket.Send("Ultra:"+str(value))
+    
+    def SendColor(self, red, green, blue):
+        self.socket.Send("Color:"+str(red)+","+str(green)+","+str(blue))
         

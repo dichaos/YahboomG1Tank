@@ -11,14 +11,14 @@ class LED:
         self.pig.set_mode(self.LED_G, pigpio.OUTPUT)
         self.pig.set_mode(self.LED_B, pigpio.OUTPUT)
     
-    def SetRed(self, pulse):
-        self.pig.set_servo_pulsewidth(self.LED_R, pulse)
+    def SetRGB(self, red, green, blue):
+        pulseRed = (red * (2500-500))/255
+        pulseGreen = (green * (2500-500))/255
+        pulseBlue = (blue * (2500-500))/255
 
-    def SetGreen(self, pulse):
-        self.pig.set_servo_pulsewidth(self.LED_G, pulse)
-
-    def SetBlue(self, pulse):
-        self.pig.set_servo_pulsewidth(self.LED_B, pulse)
+        self.pig.set_servo_pulsewidth(self.LED_R, pulseRed)
+        self.pig.set_servo_pulsewidth(self.LED_G, pulseGreen)
+        self.pig.set_servo_pulsewidth(self.LED_B, pulseBlue)
 
     def TurnOff(self):
         self.pig.set_servo_pulsewidth(self.LED_R, 0)

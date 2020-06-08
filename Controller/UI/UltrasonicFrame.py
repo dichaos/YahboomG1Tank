@@ -1,6 +1,5 @@
 from tkinter import *
 import tkinter as tk
-from UI.TriangleButton import *
 
 class UltrasonicFrame(tk.LabelFrame):
     def __init__(self, master, width, height, text, movementComms):
