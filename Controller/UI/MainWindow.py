@@ -4,6 +4,7 @@ from UI.MovementFrame import *
 from UI.ConnectionFrame import *
 from UI.CameraFrame import *
 from UI.UltrasonicFrame import *
+from UI.TrackSensorFrame import *
 import os
 
 class MainWindow(Frame):
@@ -18,7 +19,7 @@ class MainWindow(Frame):
         self.pack(fill=BOTH, expand=1)
 
         self.columnconfigure(1, weight = 2)
-        self.rowconfigure(2, weight = 2)
+        #self.rowconfigure(2, weight = 2)
 
         ConnectionPanel = ConnectionFrame(self, width = 135, height = 5, text = "Connection")
         ConnectionPanel.grid(row=0, column =0, sticky="nsew")
@@ -28,10 +29,13 @@ class MainWindow(Frame):
         
         self.ultrasonicPanel = UltrasonicFrame(self, width=310, height=100, text="Ultrasonic Sensor", movementComms=movementComms)
         self.ultrasonicPanel.grid(row = 2, column =0, sticky = "nw")
+
+        self.trackSensorFrame = TrackSensorFrame(self, width=310, height = 45, text = "Tracking Sensor")
+        self.trackSensorFrame.grid(row = 3, column = 0, sticky ="nw")
         
-        self.CameraFrame = CameraFrame(self, 150,150, "Camera", movementComms=movementComms)
+        self.CameraFrame = CameraFrame(self, 152,150, "Camera", movementComms=movementComms)
         self.CameraFrame.pack_propagate(0)
-        self.CameraFrame.grid(row =0, column = 1, rowspan=3, sticky="nsew", padx =5, pady = 5)
+        self.CameraFrame.grid(row =0, column = 1, rowspan=4, sticky="nsew", padx =2, pady = 5)
 
     def newImage(self, image):
         self.CameraFrame.new_image(LastImage=image)
@@ -39,5 +43,6 @@ class MainWindow(Frame):
     def ultraSonicValue(self, value):
         self.ultrasonicPanel.ultrasonicValue(value)
 
-    def infraredValue(self, value):
-        print(value)
+    def TrackValue(self, value):
+        self.trackSensorFrame.trackValue(value)
+        

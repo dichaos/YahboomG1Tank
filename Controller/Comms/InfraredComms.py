@@ -18,7 +18,7 @@ class InfraredComms:
         while True:
             try:
                 frame = self.sock.recv_string()
-                self.window.infraredValue(frame)
+                self.window.TrackValue(frame)
 
             except Exception as e:
                 traceback.print_exc()
