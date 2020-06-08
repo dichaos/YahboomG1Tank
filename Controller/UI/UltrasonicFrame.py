@@ -13,7 +13,7 @@ class UltrasonicFrame(tk.LabelFrame):
         self.grid_propagate('false')
         self.grid_columnconfigure(0, weight=1)
 
-        self.slider = Scale(self, from_=500, to=2500, orient=HORIZONTAL, command=self.updateValue)
+        self.slider = Scale(self, from_=2500, to=500, orient=HORIZONTAL, command=self.updateValue)
         self.slider.grid(row = 0, column = 0, columnspan=2, sticky = NSEW, ipadx=2, ipady =2)
         self.slider.set(1500)
 

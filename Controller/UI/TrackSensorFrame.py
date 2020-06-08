@@ -11,10 +11,6 @@ class TrackSensorFrame(tk.LabelFrame):
         self.grid_columnconfigure(1, weight=1)
         self.grid_columnconfigure(2, weight=1)
         self.grid_columnconfigure(3, weight=1)
-        #self.grid_rowconfigure(0, weight=1)
-        #self.grid_rowconfigure(1, weight=1)
-        #self.grid_rowconfigure(2, weight=1)
-        #self.grid_rowconfigure(3, weight=1)
 
         self.First = Label(self, text= "1", borderwidth=2, relief="groove")
         self.Second = Label(self, text= "2", borderwidth=2, relief="groove")

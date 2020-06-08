@@ -11,8 +11,13 @@ class CameraFrame(LabelFrame):
     def __init__(self, master, width, height, text, movementComms):
         super(CameraFrame, self).__init__(master, width = width, height = height, text = text)
 
-        self.HorizontalSlider = Scale(self, from_=500, to=2500, orient =HORIZONTAL)
-        self.VerticalSlider = Scale(self, from_=500, to=2500)
+        self._job1 = None
+        self._job2 = None
+        self.root = master
+        self.movementComms = movementComms
+
+        self.HorizontalSlider = Scale(self, from_=2500, to=500, orient =HORIZONTAL, command=self.updateHorizontal)
+        self.VerticalSlider = Scale(self, from_=2500, to=500, command=self.updateVertical)
 
         self.HorizontalSlider.grid(row = 0, column = 1, sticky = NSEW)
         self.VerticalSlider.grid(row = 1, column = 0, sticky = NSEW)
@@ -55,4 +60,25 @@ class CameraFrame(LabelFrame):
         img_a.fill(55)
         img = Image.fromarray(img_a, 'RGB')
         return img
+
+    def updateHorizontal(self, event):
+        if self._job1:
+            self.root.after_cancel(self._job1)
+
+        self._job1 = self.root.after(500, self.sendUpdateHorizontalValue)
+
+    def sendUpdateHorizontalValue(self):
+        self.movementComms.CameraLeftRightSetValue(self.HorizontalSlider.get())
+
+    def updateVertical(self, event):
+        if self._job2:
+            self.root.after_cancel(self._job2)
+
+        self._job2 = self.root.after(500, self.sendUpdateVerticalValue)
+
+    def sendUpdateVerticalValue(self):
+        self.movementComms.CameraUpDownSetValue(self.VerticalSlider.get())
+
+        
+
 

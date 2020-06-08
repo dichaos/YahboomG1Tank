@@ -36,33 +36,13 @@ class MovementComms:
                     self.movement.TurnLeft()
                 elif frame=="Turn Right":
                     self.movement.TurnRight()
-                #elif frame=="LeftMotor Forward":
-                    #Left motor only forward
-                #elif frame=="LeftMotor Backwards":
-                    #Left motor only backward
-                #elif frame=="RightMotor Forward":
-                    #Right motor only forward
-                #elif frame=="RightMotor Backwards":
-                    #Right motor only backward
-                elif frame.startswith('Speed'):
-                    self.movement.SetSpeed(50)
-                elif frame=='CameraUp':
-                    self.cameraVertical.StartMoveUp()
-                elif frame=='CameraDown':
-                    self.cameraVertical.StartMoveDown()
-                elif frame=='CameraUpDownStop':
-                    self.cameraVertical.Stop()
-                elif frame=='CameraLeft':
-                    self.cameraHorizontal.StartMoveLeft()
-                elif frame=='CameraRight':
-                    self.cameraHorizontal.StartMoveRight()
-                elif frame=='CameraLeftRightStop':
-                    self.cameraHorizontal.Stop()
+                elif frame.startswith('CameraLeftRight'):
+                    self.cameraHorizontal.Set(int(frame.split(":")[1]))
+                elif frame.startswith('CameraUpDown'):
+                    self.cameraVertical.Set(int(frame.split(":")[1]))
                 elif frame.startswith('Ultra:'):
                     self.ultrasonicMovement.Set(int(frame.split(":")[1]))
-                
-
-
+            
             except Exception as e:
                 traceback.print_exc()
                 print(e)

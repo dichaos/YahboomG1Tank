@@ -1,5 +1,6 @@
 from tkinter import *
 import tkinter
+from sys import platform
 from Comms.VideoComms import *
 import Comms.VideoComms as c
 import Comms.UtrasonicComms as u
@@ -13,7 +14,9 @@ root = Tk()
 #create window
 root.geometry("1024x600")
 root.resizable(False, False)
-root.minsize(800, 600)
+
+if platform != "win32":
+    root.overrideredirect(1)
 
 
 #create write comms
