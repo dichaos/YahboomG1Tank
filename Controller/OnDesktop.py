@@ -11,7 +11,8 @@ import UI.MainWindow as mainWindow
 root = Tk()
 
 #create window
-root.geometry("800x600")
+root.geometry("1024x600")
+root.resizable(False, False)
 root.minsize(800, 600)
 
 

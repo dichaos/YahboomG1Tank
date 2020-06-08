@@ -2,8 +2,8 @@ import cv2
 import numpy as np
 import imutils
 from PIL import ImageTk, Image
+from tkinter import *
 from tkinter import Tk, LabelFrame, Label
-from UI.CameraMovementFrame import CameraMovementFrame
 from PIL import *
 
 
@@ -11,17 +11,21 @@ class CameraFrame(LabelFrame):
     def __init__(self, master, width, height, text, movementComms):
         super(CameraFrame, self).__init__(master, width = width, height = height, text = text)
 
-        self.CameraMovementPanel = CameraMovementFrame(self, width=135, height=135, text="Movement",  movementComms=movementComms)
-        self.CameraMovementPanel.grid(row=0, column=0,sticky='nw')
+        self.HorizontalSlider = Scale(self, from_=500, to=2500, orient =HORIZONTAL)
+        self.VerticalSlider = Scale(self, from_=500, to=2500)
 
-        self.CameraFrame = LabelFrame(self, width = 135, height = 145, text = "Video", padx=0, pady=0)
-        self.CameraFrame.grid(row=0,column=1,sticky='nsew')
-        
-        self.Video = Label(self.CameraFrame, anchor ='nw',padx=0, pady=0)
-        self.Video.grid(row=0, column=0, sticky='nsew',padx=5, pady=5)
+        self.HorizontalSlider.grid(row = 0, column = 1, sticky = NSEW)
+        self.VerticalSlider.grid(row = 1, column = 0, sticky = NSEW)
+
+        self.HorizontalSlider.set(1500)
+        self.VerticalSlider.set(1500)
+
+        self.Video = Label(self, anchor ='nw',padx=0, pady=0)
+        self.Video.grid(row=1, column=1, sticky='nsew',padx=5, pady=5)
         
         self.bind('<Configure>', self.resize)
-        imgtk = ImageTk.PhotoImage(image= self.empty_image(200,200))
+
+        imgtk = ImageTk.PhotoImage(image= self.empty_image(480,640))
         self.Video.lmain = imgtk
         self.Video.configure(image=imgtk)
         self.LastImage = None
@@ -33,7 +37,7 @@ class CameraFrame(LabelFrame):
             self.LastImage = LastImage
             self.video_stream()
 
-    def video_stream(self, width = 200, height = 200):
+    def video_stream(self, width = 480, height = 640):
         cv_image = cv2.cvtColor(self.LastImage, cv2.COLOR_BGR2RGB)
         pil_image = Image.fromarray(cv_image)
 

@@ -58,12 +58,9 @@ class MovementComms:
                     self.cameraHorizontal.StartMoveRight()
                 elif frame=='CameraLeftRightStop':
                     self.cameraHorizontal.Stop()
-                elif frame=='UltrasonicLeft':
-                    self.ultrasonicMovement.StartMoveLeft()
-                elif frame=='UltrasonicRight':
-                    self.ultrasonicMovement.StartMoveRight()
-                elif frame=='UltrasonicStop':
-                    self.ultrasonicMovement.Stop()
+                elif frame.startswith('Ultra:'):
+                    self.ultrasonicMovement.Set(int(frame.split(":")[1]))
+                
 
 
             except Exception as e:

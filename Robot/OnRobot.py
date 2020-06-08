@@ -12,7 +12,7 @@ import RPi.GPIO as GPIO
 import Comms.MovementComms as movementComms
 
 
-def cleanup(servo1, servo2, servo3, led, beeper, video, track, movement):
+def cleanup(servo1, servo2, servo3, led, beeper, video, track, movement, ultrasonicreader):
     movement.stop()
     servo1.stop()
     servo2.stop()
@@ -21,6 +21,7 @@ def cleanup(servo1, servo2, servo3, led, beeper, video, track, movement):
     beeper.stop()
     video.stop()
     track.stop()
+    ultrasonicreader.stop()
     GPIO.cleanup()
     print("cleaned up")
 
@@ -42,14 +43,14 @@ ultrasonic = Ultrasonic.Ultrasonic(ultrasonicStreamer)
 infraredStreamer = Streamer.Streamer('tcp://192.168.1.16:7777')
 trackSensor = TrackSensor.TrackSensor(infraredStreamer)
 
+movementStream = movementComms.MovementComms('tcp://192.168.1.16:9999', movement, cameraVertical, cameraHorizontal, ultraSonicMover)
+
 trackSensor.start()
 ultrasonic.start()
 videoStreamer.start()
-
-movementStream = movementComms.MovementComms('tcp://192.168.1.16:9999', movement, cameraVertical, cameraHorizontal, ultraSonicMover)
 movementStream.start()
 
-atexit.register(cleanup, ultraSonicMover, cameraHorizontal, cameraVertical, led, buzzer, videoStreamer, trackSensor, movementStream)
+atexit.register(cleanup, ultraSonicMover, cameraHorizontal, cameraVertical, led, buzzer, videoStreamer, trackSensor, movementStream, ultrasonic)
 
 print("All started")
 buzzer.Buzz()

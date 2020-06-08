@@ -21,17 +21,17 @@ class MainWindow(Frame):
         self.rowconfigure(2, weight = 2)
 
         ConnectionPanel = ConnectionFrame(self, width = 135, height = 5, text = "Connection")
-        ConnectionPanel.grid(row=0, column =0, columnspan = 2, sticky="nsew")
+        ConnectionPanel.grid(row=0, column =0, sticky="nsew")
         
         self.MovementPanel = MovementFrame(self, width=135, height=145, text="Tank Movement", movementComms=movementComms)
         self.MovementPanel.grid(row = 1, column = 0)
         
-        self.ultrasonicPanel = UltrasonicFrame(self, width=135, height=145, text="Ultrasonic Sensor", movementComms=movementComms)
-        self.ultrasonicPanel.grid(row = 1, column =1, sticky = "nw")
+        self.ultrasonicPanel = UltrasonicFrame(self, width=310, height=100, text="Ultrasonic Sensor", movementComms=movementComms)
+        self.ultrasonicPanel.grid(row = 2, column =0, sticky = "nw")
         
         self.CameraFrame = CameraFrame(self, 150,150, "Camera", movementComms=movementComms)
         self.CameraFrame.pack_propagate(0)
-        self.CameraFrame.grid(row =2, column = 0, columnspan=2, sticky="nsew", padx =5, pady = 5)
+        self.CameraFrame.grid(row =0, column = 1, rowspan=3, sticky="nsew", padx =5, pady = 5)
 
     def newImage(self, image):
         self.CameraFrame.new_image(LastImage=image)

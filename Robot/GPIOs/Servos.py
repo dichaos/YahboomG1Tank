@@ -25,35 +25,12 @@ class UltrasonicServo(Servo):
     def __init__(self):
         super().__init__(23)
         self.Forward()
-        self.Current = 1500
-        self.MoveLeftRight = 1
-        self.Direction = 'Stop'
-
-        thread = threading.Thread(target=self.MoveLeftRightLoop)
-        thread.daemon = True       
-        thread.start() 
 
     def Forward(self):
         self.rotate(1500)
 
-    def MoveLeftRightLoop(self):
-        while self.MoveLeftRight == 1:
-            if self.Direction == 'left':
-                self.Current = self.Current + 25
-            elif self.Direction == 'right': 
-                self.Current = self.Current - 25
-
-            self.rotate(self.Current)
-            time.sleep(0.1)
-
-    def Stop(self):
-        self.Direction = 'Stop'
-
-    def StartMoveLeft(self):
-        self.Direction ='left'
-
-    def StartMoveRight(self):
-        self.Direction ='right'
+    def Set(self, value):
+        self.rotate(value)
     
 class CameraHorizontalServo(Servo):
     def __init__(self):
@@ -73,9 +50,9 @@ class CameraHorizontalServo(Servo):
     def MoveLeftRightLoop(self):
         while self.MoveLeftRight == 1:
             if self.Direction == 'left':
-                self.Current = self.Current + 25
+                self.Current = self.Current + 100
             elif self.Direction == 'right': 
-                self.Current = self.Current - 25
+                self.Current = self.Current - 100
 
             self.rotate(self.Current)
             time.sleep(0.1)
@@ -107,9 +84,9 @@ class CameraVerticalServo(Servo):
     def MoveUpDownLoop(self):
         while self.MoveUpDown == 1:
             if self.Direction == 'up':
-                self.Current = self.Current + 25
+                self.Current = self.Current + 100
             elif self.Direction == 'down': 
-                self.Current = self.Current - 25
+                self.Current = self.Current - 100
 
             self.rotate(self.Current)
             time.sleep(0.1)
@@ -122,11 +99,3 @@ class CameraVerticalServo(Servo):
 
     def StartMoveDown(self):
         self.Direction ='down'
-         
-
-
-        
-
-
-
-    
