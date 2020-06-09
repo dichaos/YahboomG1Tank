@@ -9,7 +9,7 @@ from UI.LedColorFrame import *
 import os
 
 class MainWindow(Frame):
-    def __init__(self, master, movementComms):
+    def __init__(self, master):
         Frame.__init__(self, master)               
         self.master = master
         
@@ -22,24 +22,26 @@ class MainWindow(Frame):
         self.columnconfigure(1, weight = 2)
         #self.rowconfigure(2, weight = 2)
 
-        ConnectionPanel = ConnectionFrame(self, width = 135, height = 5, text = "Connection")
-        ConnectionPanel.grid(row=0, column =0, sticky="nsew")
+        self.ConnectionPanel = ConnectionFrame(self, width = 135, height = 5, text = "Connection")
+        self.ConnectionPanel.grid(row=0, column =0, sticky="nsew")
         
-        self.MovementPanel = MovementFrame(self, width=135, height=145, text="Tank Movement", movementComms=movementComms)
+        self.MovementPanel = MovementFrame(self, width=135, height=145, text="Tank Movement")
         self.MovementPanel.grid(row = 1, column = 0)
         
-        self.ultrasonicPanel = UltrasonicFrame(self, width=310, height=100, text="Ultrasonic Sensor", movementComms=movementComms)
+        self.ultrasonicPanel = UltrasonicFrame(self, width=310, height=100, text="Ultrasonic Sensor")
         self.ultrasonicPanel.grid(row = 2, column =0, sticky = "nw")
 
         self.trackSensorFrame = TrackSensorFrame(self, width=310, height = 45, text = "Tracking Sensor")
         self.trackSensorFrame.grid(row = 3, column = 0, sticky ="nw")
 
-        self.ledColorFrame = LedColorFrame(self, width= 310, height = 200, text = "Headlights", movementComms=movementComms)
+        self.ledColorFrame = LedColorFrame(self, width= 310, height = 200, text = "Headlights")
         self.ledColorFrame.grid(row=4, column=0, sticky ="nw")
         
-        self.CameraFrame = CameraFrame(self, 152,150, "Camera", movementComms=movementComms)
+        self.CameraFrame = CameraFrame(self, 152,150, "Camera")
         self.CameraFrame.pack_propagate(0)
         self.CameraFrame.grid(row =0, column = 1, rowspan=5, sticky="nsew", padx =2, pady = 5)
+
+        self.ConnectionPanel.CreateConnections(self)
 
     def newImage(self, image):
         self.CameraFrame.new_image(LastImage=image)

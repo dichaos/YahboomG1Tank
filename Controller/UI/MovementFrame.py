@@ -3,9 +3,8 @@ import tkinter as tk
 from UI.TriangleButton import *
 
 class MovementFrame(tk.LabelFrame):
-    def __init__(self, master, width, height, text, movementComms):
+    def __init__(self, master, width, height, text):
         super(MovementFrame, self).__init__(master, width = width, height = height, text = text)
-        self.movementComms = movementComms
 
         upButton = TriangleButton(self, 'up')
         downButton = TriangleButton(self, 'down')
@@ -41,20 +40,30 @@ class MovementFrame(tk.LabelFrame):
 
         self.bind('<Configure>', self._on_resize)
 
+    def SetMovement(self, movementComms):
+        self.movementComms = movementComms
+
     def _on_resize(self, event):
-        self.config(width=event.width, height=event.height)
+        if self.movementComms is not None:
+            self.config(width=event.width, height=event.height)
 
     def upButton(self, t):
-        self.movementComms.MoveForward()
+        print(self.movementComms)
+        if self.movementComms is not None:
+            self.movementComms.MoveForward()
     
     def downButton(self, t):
-        self.movementComms.MoveBackwards()
+        if self.movementComms is not None:
+            self.movementComms.MoveBackwards()
 
     def leftButton(self, t):
-        self.movementComms.MoveLeft()
+        if self.movementComms is not None:
+            self.movementComms.MoveLeft()
 
     def rightButton(self, t):
-        self.movementComms.MoveRight()
+        if self.movementComms is not None:
+            self.movementComms.MoveRight()
 
     def stop_motor(self, t):
-        self.movementComms.MoveStop()
+        if self.movementComms is not None:
+            self.movementComms.MoveStop()

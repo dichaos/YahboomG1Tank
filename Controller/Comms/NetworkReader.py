@@ -1,15 +1,18 @@
 from sys import platform
 import os
 import subprocess
+import socket
 
 def GetIp(hostname = 'PI'):
     ips = GetNetworkIps()
-
+    host = ""
     for x in ips:
-        if platform == "win32":
-            ping = subprocess.run(['ping', '-n', '1', '-a', x], stdout=subprocess.PIPE).stdout.decode('utf-8').split('\n')[1].split(" ")[1]
-            if ping == hostname:
+        try:
+            host = socket.gethostbyaddr(x)
+            if host[0] == hostname:
                 return x
+        except OSError:
+            continue
 
     return None
 

@@ -1,10 +1,5 @@
 from sys import platform
-from Comms.VideoComms import *
-import Comms.VideoComms as c
-import Comms.UtrasonicComms as u
-import Comms.InfraredComms as i
-import Comms.Streamer as s
-import Comms.MovementComms as m
+from tkinter import Tk
 import UI.MainWindow as mainWindow
 import Comms.NetworkReader as NetworkReader
 
@@ -17,28 +12,7 @@ root.resizable(False, False)
 if platform != "win32":
     root.overrideredirect(1)
 
-
-
-with open ("OnDesktop.config", "r") as myfile:
-    hostname=myfile.readlines()[0].split("=")[1]
-
-ip = NetworkReader.GetIp(hostname)
-
-#create write comms
-movementStream = s.Streamer('tcp://'+ip+':9999')
-movement = m.MovementComms(movementStream)
-
-app = mainWindow.MainWindow(root, movement)
-
-#create read comms
-videoStream = c.VideoComms('tcp://'+ip+':5555', app)
-ultrasonicStream = u.UltrasonicComms('tcp://'+ip+':6666', app)
-infraredStream = i.InfraredComms('tcp://'+ip+':7777', app)
-
-movementStream.start()
-videoStream.start()
-ultrasonicStream.start()
-infraredStream.start()
+app = mainWindow.MainWindow(root)
 
 root.mainloop()
 

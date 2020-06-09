@@ -8,13 +8,12 @@ from PIL import *
 
 
 class CameraFrame(LabelFrame):
-    def __init__(self, master, width, height, text, movementComms):
+    def __init__(self, master, width, height, text):
         super(CameraFrame, self).__init__(master, width = width, height = height, text = text)
 
         self._job1 = None
         self._job2 = None
         self.root = master
-        self.movementComms = movementComms
 
         self.HorizontalSlider = Scale(self, from_=2500, to=500, orient =HORIZONTAL, command=self.updateHorizontal)
         self.VerticalSlider = Scale(self, from_=2500, to=500, command=self.updateVertical)
@@ -36,6 +35,9 @@ class CameraFrame(LabelFrame):
         self.Video.lmain = imgtk
         self.Video.configure(image=imgtk)
         self.LastImage = None
+
+    def SetMovement(self, movementComms):
+        self.movementComms = movementComms
         
     def new_image(self, LastImage):
         if(self.LastImage is not None):
@@ -70,7 +72,8 @@ class CameraFrame(LabelFrame):
         self._job1 = self.root.after(500, self.sendUpdateHorizontalValue)
 
     def sendUpdateHorizontalValue(self):
-        self.movementComms.CameraLeftRightSetValue(self.HorizontalSlider.get())
+        if self.movementComms is not None:
+            self.movementComms.CameraLeftRightSetValue(self.HorizontalSlider.get())
 
     def updateVertical(self, event):
         if self._job2:
@@ -79,7 +82,8 @@ class CameraFrame(LabelFrame):
         self._job2 = self.root.after(500, self.sendUpdateVerticalValue)
 
     def sendUpdateVerticalValue(self):
-        self.movementComms.CameraUpDownSetValue(self.VerticalSlider.get())
+        if self.movementComms is not None:
+            self.movementComms.CameraUpDownSetValue(self.VerticalSlider.get())
 
     def center(self):
         self.HorizontalSlider.set(1500)

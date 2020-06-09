@@ -2,10 +2,9 @@ from tkinter import *
 import tkinter as tk
 
 class UltrasonicFrame(tk.LabelFrame):
-    def __init__(self, master, width, height, text, movementComms):
+    def __init__(self, master, width, height, text):
         super(UltrasonicFrame, self).__init__(master, width = width, height = height, text = text)
-        self.movementComms = movementComms
-
+        
         self._job = None
         self.root = master
 
@@ -23,6 +22,9 @@ class UltrasonicFrame(tk.LabelFrame):
         self.CenterButton.grid(row = 1, column = 1, sticky = NSEW, ipadx=2, ipady =2)
 
         self.bind('<Configure>', self._on_resize)
+
+    def SetMovement(self, movementComms):
+        self.movementComms = movementComms
 
     def updateValue(self, event):
         if self._job:

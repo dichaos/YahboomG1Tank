@@ -2,10 +2,9 @@ from tkinter import *
 import tkinter as tk
 
 class LedColorFrame(tk.LabelFrame):
-    def __init__(self, master, width, height, text, movementComms):
+    def __init__(self, master, width, height, text):
         super(LedColorFrame, self).__init__(master, width = width, height = height, text = text)
 
-        self.movementComms = movementComms
         self._job = None
         self.root = master
 
@@ -25,6 +24,9 @@ class LedColorFrame(tk.LabelFrame):
         self.R.grid(row = 2, column = 0, sticky = NSEW)
         self.G.grid(row = 2, column = 1, sticky = NSEW)
         self.B.grid(row = 2, column = 2, sticky = NSEW)
+    
+    def SetMovement(self, movementComms):
+        self.movementComms = movementComms
 
     def SetColor(self, event):
         self.Color.config(bg="#{:02x}{:02x}{:02x}".format(self.R.get(), self.G.get(), self.B.get()))
@@ -38,5 +40,6 @@ class LedColorFrame(tk.LabelFrame):
         self._job = self.root.after(500, self.SendColor)
 
     def SendColor(self):
-        self.movementComms.SendColor(self.R.get(), self.G.get(), self.B.get())
+        if self.movementComms is not None: 
+            self.movementComms.SendColor(self.R.get(), self.G.get(), self.B.get())
 
