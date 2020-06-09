@@ -92,6 +92,7 @@ class MainWindow(Frame):
         
         win.geometry("800x300+300+300")
         win.overrideredirect(1)
+        
         win.lift()
         l = Label(win, text='Wait to connect please...')
         l.config(font=("Courier", 30))

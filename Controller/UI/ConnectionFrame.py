@@ -20,10 +20,23 @@ class ConnectionFrame(tk.LabelFrame):
         self.IPEntry = Entry(self, width = 15)
         self.IPEntry.grid(row = 0, column = 1, padx= 3, pady = 3)
 
-        connectionButton = Button(self,  text = 'connect', width = 10)
+        connectionButton = Button(self,  text = 'Save', width = 10, command=self.Save)
         connectionButton.grid(row = 0, column = 2, padx= 3, pady = 3)
 
+    def Save(self):
+        f = open("OnDesktop.config", "r")
+        contents = f.readlines()
+        f.close()
+
+        contents.insert(0, "IP="+self.IPEntry.get()+" \n")
+
+        f = open("OnDesktop.config", "w")
+        contents = "".join(contents)
+        f.write(contents)
+        f.close()
+
     def CreateConnections(self, app):
+
         with open ("OnDesktop.config", "r") as myfile:
             line = myfile.readlines()[0]
             
@@ -31,9 +44,9 @@ class ConnectionFrame(tk.LabelFrame):
                 hostname=line.split("=")[1]
                 self.ip = NetworkReader.GetIp(hostname)
             elif line.startswith("IP"):
-                self.ip = line
+                self.ip = line.split("=")[1].strip()
 
-        self.IPEntry.delete(0,"end")
+        #self.IPEntry.delete(0,"end")
         self.IPEntry.insert(0, self.ip)
 
         movementStream = s.Streamer('tcp://'+self.ip+':9999')

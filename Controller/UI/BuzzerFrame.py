@@ -6,7 +6,7 @@ class BuzzerFrame(tk.LabelFrame):
         super(BuzzerFrame, self).__init__(master, width = width, height = height, text = text)
         self.movementComms = None
         upButton = Button(self, text='Annoy')
-        upButton.grid(row = 0, column = 0, sticky=NSEW)
+        upButton.pack(fill=BOTH, expand=True)
 
         upButton.bind('<ButtonPress-1>',self.BuzzOn)
         upButton.bind('<ButtonRelease-1>',self.BuzzOff)
