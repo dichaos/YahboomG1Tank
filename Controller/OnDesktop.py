@@ -6,6 +6,7 @@ import Comms.InfraredComms as i
 import Comms.Streamer as s
 import Comms.MovementComms as m
 import UI.MainWindow as mainWindow
+import Comms.NetworkReader as NetworkReader
 
 root = Tk()
 
@@ -17,10 +18,11 @@ if platform != "win32":
     root.overrideredirect(1)
 
 
-with open ("OnDesktop.config", "r") as myfile:
-    ip=myfile.readlines()[0]
 
-print(ip)
+with open ("OnDesktop.config", "r") as myfile:
+    hostname=myfile.readlines()[0].split("=")[1]
+
+ip = NetworkReader.GetIp(hostname)
 
 #create write comms
 movementStream = s.Streamer('tcp://'+ip+':9999')
