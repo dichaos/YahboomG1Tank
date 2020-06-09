@@ -54,4 +54,9 @@ class MovementComms():
     
     def SendColor(self, red, green, blue):
         self.socket.Send("Color:"+str(red)+","+str(green)+","+str(blue))
-        
+
+    def BuzzOn(self):
+        self.socket.Send("BuzzOn")
+    
+    def BuzzOff(self):
+        self.socket.Send("BuzzOff")

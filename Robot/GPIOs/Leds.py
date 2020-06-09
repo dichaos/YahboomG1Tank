@@ -16,6 +16,21 @@ class LED:
         pulseGreen = (green * (2500-500))/255
         pulseBlue = (blue * (2500-500))/255
 
+        if pulseRed < 0:
+            pulseRed = 0
+        elif pulseRed > 2500:
+            pulseRed = 2500
+
+        if pulseGreen < 0:
+            pulseGreen = 0
+        elif pulseGreen > 2500:
+            pulseGreen = 2500
+
+        if pulseBlue < 0:
+            pulseBlue = 0
+        elif pulseBlue > 2500:
+            pulseBlue = 2500
+
         self.pig.set_servo_pulsewidth(self.LED_R, pulseRed)
         self.pig.set_servo_pulsewidth(self.LED_G, pulseGreen)
         self.pig.set_servo_pulsewidth(self.LED_B, pulseBlue)

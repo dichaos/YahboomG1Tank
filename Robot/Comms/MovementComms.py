@@ -6,12 +6,13 @@ import threading
 import numpy as np
 
 class MovementComms:
-    def __init__(self, url, movement, cameraVertical, cameraHorizontal, ultrasonicMovement, led):
+    def __init__(self, url, movement, cameraVertical, cameraHorizontal, ultrasonicMovement, led, buzzer):
         self.movement = movement
         self.cameraVertical = cameraVertical
         self.cameraHorizontal = cameraHorizontal
         self.ultrasonicMovement = ultrasonicMovement
         self.led = led
+        self.buzzer = buzzer
 
         self.context = zmq.Context()
         self.sock = self.context.socket(zmq.PAIR)
@@ -45,8 +46,11 @@ class MovementComms:
                 elif frame.startswith('Color:'):
                     colors = frame.split(":")[1]
                     self.led.SetRGB(int(colors.split(",")[0]),int(colors.split(",")[1]),int(colors.split(",")[2]))
-             
-            
+                elif frame=="BuzzOn":
+                    self.buzzer.Buzz()
+                elif frame=="BuzzOff":
+                    self.buzzer.stop()
+
             except Exception as e:
                 traceback.print_exc()
                 print(e)

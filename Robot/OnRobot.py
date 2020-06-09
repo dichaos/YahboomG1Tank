@@ -43,7 +43,7 @@ ultrasonic = Ultrasonic.Ultrasonic(ultrasonicStreamer)
 infraredStreamer = Streamer.Streamer('tcp://*:7777')
 trackSensor = TrackSensor.TrackSensor(infraredStreamer)
 
-movementStream = movementComms.MovementComms('tcp://*:9999', movement, cameraVertical, cameraHorizontal, ultraSonicMover, led)
+movementStream = movementComms.MovementComms('tcp://*:9999', movement, cameraVertical, cameraHorizontal, ultraSonicMover, led, buzzer)
 
 trackSensor.start()
 ultrasonic.start()

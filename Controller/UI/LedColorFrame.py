@@ -42,4 +42,3 @@ class LedColorFrame(tk.LabelFrame):
     def SendColor(self):
         if self.movementComms is not None: 
             self.movementComms.SendColor(self.R.get(), self.G.get(), self.B.get())
-

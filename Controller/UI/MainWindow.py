@@ -6,6 +6,7 @@ from UI.CameraFrame import *
 from UI.UltrasonicFrame import *
 from UI.TrackSensorFrame import *
 from UI.LedColorFrame import *
+from UI.BuzzerFrame import *
 import os
 
 class MainWindow(Frame):
@@ -36,10 +37,13 @@ class MainWindow(Frame):
 
         self.ledColorFrame = LedColorFrame(self, width= 310, height = 200, text = "Headlights")
         self.ledColorFrame.grid(row=4, column=0, sticky ="nw")
+
+        self.BuzzerFrame = BuzzerFrame(self, width=310, height = 50, text = "Buzzer")
+        self.BuzzerFrame.grid(row=5, column = 0, sticky = "nw")
         
         self.CameraFrame = CameraFrame(self, 152,150, "Camera")
         self.CameraFrame.pack_propagate(0)
-        self.CameraFrame.grid(row =0, column = 1, rowspan=5, sticky="nsew", padx =2, pady = 5)
+        self.CameraFrame.grid(row =0, column = 1, rowspan=6, sticky="nsew", padx =2, pady = 5)
 
         self.ConnectionPanel.CreateConnections(self)
 

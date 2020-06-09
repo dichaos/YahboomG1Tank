@@ -32,8 +32,8 @@ class ConnectionFrame(tk.LabelFrame):
             elif line.startswith("IP"):
                 self.ip = line
 
-            self.IPEntry.delete(0,"end")
-            self.IPEntry.insert(0, self.ip)
+        self.IPEntry.delete(0,"end")
+        self.IPEntry.insert(0, self.ip)
     
     def CreateConnections(self, app):
 
@@ -44,6 +44,7 @@ class ConnectionFrame(tk.LabelFrame):
         app.ultrasonicPanel.SetMovement(movement)
         app.ledColorFrame.SetMovement(movement)
         app.CameraFrame.SetMovement(movement)
+        app.BuzzerFrame.SetMovement(movement)
 
         #create read comms
         videoStream = c.VideoComms('tcp://'+self.ip+':5555', app)
@@ -54,6 +55,3 @@ class ConnectionFrame(tk.LabelFrame):
         videoStream.start()
         ultrasonicStream.start()
         infraredStream.start()
-
-
-        
