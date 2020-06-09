@@ -4,7 +4,7 @@ import tkinter as tk
 class UltrasonicFrame(tk.LabelFrame):
     def __init__(self, master, width, height, text):
         super(UltrasonicFrame, self).__init__(master, width = width, height = height, text = text)
-        
+        self.movementComms = None
         self._job = None
         self.root = master
 
@@ -37,7 +37,9 @@ class UltrasonicFrame(tk.LabelFrame):
 
     def sendUpdateValue(self):
         value = self.slider.get()
-        self.movementComms.UltrsonicSetValue(value)
+        
+        if self.movementComms is not None:
+            self.movementComms.UltrsonicSetValue(value)
 
     def _on_resize(self, event):
         self.config(width=event.width, height=event.height)

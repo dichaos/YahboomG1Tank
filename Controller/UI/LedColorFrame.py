@@ -4,7 +4,7 @@ import tkinter as tk
 class LedColorFrame(tk.LabelFrame):
     def __init__(self, master, width, height, text):
         super(LedColorFrame, self).__init__(master, width = width, height = height, text = text)
-
+        self.movementComms = None
         self._job = None
         self.root = master
 

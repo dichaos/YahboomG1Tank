@@ -7,6 +7,7 @@ from UI.UltrasonicFrame import *
 from UI.TrackSensorFrame import *
 from UI.LedColorFrame import *
 from UI.BuzzerFrame import *
+import threading
 import os
 
 class MainWindow(Frame):
@@ -21,7 +22,6 @@ class MainWindow(Frame):
         self.pack(fill=BOTH, expand=1)
 
         self.columnconfigure(1, weight = 2)
-        #self.rowconfigure(2, weight = 2)
 
         self.ConnectionPanel = ConnectionFrame(self, width = 135, height = 5, text = "Connection")
         self.ConnectionPanel.grid(row=0, column =0, sticky="nsew")
@@ -39,13 +39,14 @@ class MainWindow(Frame):
         self.ledColorFrame.grid(row=4, column=0, sticky ="nw")
 
         self.BuzzerFrame = BuzzerFrame(self, width=310, height = 50, text = "Buzzer")
-        self.BuzzerFrame.grid(row=5, column = 0, sticky = "nw")
+        self.BuzzerFrame.grid(row=5, column = 0, sticky = "nsew")
         
         self.CameraFrame = CameraFrame(self, 152,150, "Camera")
         self.CameraFrame.pack_propagate(0)
         self.CameraFrame.grid(row =0, column = 1, rowspan=6, sticky="nsew", padx =2, pady = 5)
 
-        self.ConnectionPanel.CreateConnections(self)
+        self.disableChildren(self)
+        self.DoTheConnection()
 
     def newImage(self, image):
         self.CameraFrame.new_image(LastImage=image)
@@ -55,4 +56,45 @@ class MainWindow(Frame):
 
     def TrackValue(self, value):
         self.trackSensorFrame.trackValue(value)
+
+    def DoTheConnection(self):
+        thread = threading.Thread(target=self.Connect)
+        thread.daemon = True       
+        thread.start() 
+
+    def Connect(self):
+        wait = self.wait()
+        self.ConnectionPanel.CreateConnections(self)
+        print("Done connecting")
+        wait.destroy()
+        self.enableChildren(self)
+
+    def disableChildren(self, parent):
+        for child in parent.winfo_children():
+            wtype = child.winfo_class()
+            if wtype not in ('Frame','Labelframe'):
+                try:
+                    child.configure(state='disable')
+                except:
+                    pass
+            else:
+                self.disableChildren(child)
+    
+    def enableChildren(self, parent):
+        for child in parent.winfo_children():
+            wtype = child.winfo_class()
+            print (wtype)
+            if wtype not in ('Frame','Labelframe'):
+                child.configure(state='normal')
+            else:
+                self.enableChildren(child)
+    
+    def wait(self):
+        win = Toplevel(self)
         
+        win.geometry("800x300")
+        win.overrideredirect(1)
+        l = Label(win, text='Wait to connect please...')
+        l.config(font=("Courier", 30))
+        l.pack(fill="none", expand=True)
+        return win

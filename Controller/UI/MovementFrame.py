@@ -5,7 +5,7 @@ from UI.TriangleButton import *
 class MovementFrame(tk.LabelFrame):
     def __init__(self, master, width, height, text):
         super(MovementFrame, self).__init__(master, width = width, height = height, text = text)
-
+        self.movementComms = None
         upButton = TriangleButton(self, 'up')
         downButton = TriangleButton(self, 'down')
         leftButton = TriangleButton(self, 'left')

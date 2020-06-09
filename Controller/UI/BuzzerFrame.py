@@ -4,7 +4,7 @@ import tkinter as tk
 class BuzzerFrame(tk.LabelFrame):
     def __init__(self, master, width, height, text):
         super(BuzzerFrame, self).__init__(master, width = width, height = height, text = text)
-
+        self.movementComms = None
         upButton = Button(self, text='Annoy')
         upButton.grid(row = 0, column = 0, sticky=NSEW)
 

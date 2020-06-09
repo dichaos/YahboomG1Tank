@@ -10,7 +10,7 @@ from PIL import *
 class CameraFrame(LabelFrame):
     def __init__(self, master, width, height, text):
         super(CameraFrame, self).__init__(master, width = width, height = height, text = text)
-
+        self.movementComms = None
         self._job1 = None
         self._job2 = None
         self.root = master
