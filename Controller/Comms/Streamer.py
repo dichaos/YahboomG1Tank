@@ -7,7 +7,7 @@ class Streamer:
     def start(self):
         self.context = zmq.Context()
         self.footage_socket = self.context.socket(zmq.PAIR)
-        self.footage_socket.bind(self.url)
+        self.footage_socket.connect(self.url)
 
     def startUrl(self, url):
         self.url = url 

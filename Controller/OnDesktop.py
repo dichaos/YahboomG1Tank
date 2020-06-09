@@ -17,7 +17,7 @@ if platform != "win32":
     root.overrideredirect(1)
 
 #create write comms
-movementStream = s.Streamer('tcp://*:9999')
+movementStream = s.Streamer('tcp://192.168.1.28:9999')
 movement = m.MovementComms(movementStream)
 
 app = mainWindow.MainWindow(root, movement)
@@ -27,7 +27,7 @@ videoStream = c.VideoComms('tcp://192.168.1.28:5555', app)
 ultrasonicStream = u.UltrasonicComms('tcp://192.168.1.28:6666', app)
 infraredStream = i.InfraredComms('tcp://192.168.1.28:7777', app)
 
-#movementStream.start()
+movementStream.start()
 videoStream.start()
 ultrasonicStream.start()
 infraredStream.start()
