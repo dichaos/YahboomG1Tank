@@ -16,16 +16,22 @@ root.resizable(False, False)
 if platform != "win32":
     root.overrideredirect(1)
 
+
+with open ("OnDesktop.config", "r") as myfile:
+    ip=myfile.readlines()[0]
+
+print(ip)
+
 #create write comms
-movementStream = s.Streamer('tcp://192.168.1.28:9999')
+movementStream = s.Streamer('tcp://'+ip+':9999')
 movement = m.MovementComms(movementStream)
 
 app = mainWindow.MainWindow(root, movement)
 
 #create read comms
-videoStream = c.VideoComms('tcp://192.168.1.28:5555', app)
-ultrasonicStream = u.UltrasonicComms('tcp://192.168.1.28:6666', app)
-infraredStream = i.InfraredComms('tcp://192.168.1.28:7777', app)
+videoStream = c.VideoComms('tcp://'+ip+':5555', app)
+ultrasonicStream = u.UltrasonicComms('tcp://'+ip+':6666', app)
+infraredStream = i.InfraredComms('tcp://'+ip+':7777', app)
 
 movementStream.start()
 videoStream.start()

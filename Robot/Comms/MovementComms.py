@@ -24,7 +24,7 @@ class MovementComms:
             try:
                 frame = self.sock.recv_string()
 
-                print(frame)
+                #print(frame)
 
                 if frame=="Move Stopped":
                     self.movement.Stop()

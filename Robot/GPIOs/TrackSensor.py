@@ -39,7 +39,7 @@ class TrackSensor:
             if self.streamer is not None:
                 self.streamer.Send(track)
 
-            print ("Tracking = " , track)
+            #print ("Tracking = " , track)
             time.sleep(1)
         
     def start(self):

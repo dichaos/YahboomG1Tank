@@ -48,7 +48,7 @@ class Ultrasonic:
             if self.streamer is not None:
                 self.streamer.Send(str(round(dist,2)))
 
-            print ("Distance = %.1f cm" % dist)
+            #print ("Distance = %.1f cm" % dist)
             time.sleep(1)
         
     def start(self):

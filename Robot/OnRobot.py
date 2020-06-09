@@ -4,12 +4,12 @@ import GPIOs.LEDs as LED
 import GPIOs.Buzzer as Buzzer
 import GPIOs.Ultrasonic as Ultrasonic
 import GPIOs.TrackSensor as TrackSensor
-import VideoStreamer
-import Streamer
 import time
 import atexit
 import RPi.GPIO as GPIO
 import Comms.MovementComms as movementComms
+import Comms.VideoStreamer as videoStreamer
+import Comms.Streamer as Streamer
 
 
 def cleanup(servo1, servo2, servo3, led, beeper, video, track, movement, ultrasonicreader):
@@ -34,7 +34,7 @@ buzzer = Buzzer.Buzzer()
 led = LED.LED()
 
 # Start streaming video
-videoStreamer = VideoStreamer.VideoStreamer('tcp://*:5555')
+videoStreamer = videoStreamer.VideoStreamer('tcp://*:5555')
 
 # Start streaming Ultrasonic sensor values
 ultrasonicStreamer = Streamer.Streamer('tcp://*:6666')
