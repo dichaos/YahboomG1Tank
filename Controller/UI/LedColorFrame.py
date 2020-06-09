@@ -27,13 +27,13 @@ class LedColorFrame(tk.LabelFrame):
         self.B.grid(row = 2, column = 2, sticky = NSEW)
 
     def SetColor(self, event):
-        if self._job:
-            self.root.after_cancel(self._job)
-
         self.Color.config(bg="#{:02x}{:02x}{:02x}".format(self.R.get(), self.G.get(), self.B.get()))
         self.Red.config(bg="#{:02x}{:02x}{:02x}".format(self.R.get(), 0, 0))
         self.Green.config(bg="#{:02x}{:02x}{:02x}".format(0, self.G.get(), 0))
         self.Blue.config(bg="#{:02x}{:02x}{:02x}".format(0, 0, self.B.get()))
+        
+        if self._job:
+            self.root.after_cancel(self._job)
 
         self._job = self.root.after(500, self.SendColor)
 

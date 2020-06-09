@@ -34,13 +34,13 @@ buzzer = Buzzer.Buzzer()
 led = LED.LED()
 
 # Start streaming video
-videoStreamer = VideoStreamer.VideoStreamer('tcp://192.168.1.16:5555')
+videoStreamer = VideoStreamer.VideoStreamer('tcp://*:5555')
 
 # Start streaming Ultrasonic sensor values
-ultrasonicStreamer = Streamer.Streamer('tcp://192.168.1.16:6666')
+ultrasonicStreamer = Streamer.Streamer('tcp://*:6666')
 ultrasonic = Ultrasonic.Ultrasonic(ultrasonicStreamer)
 
-infraredStreamer = Streamer.Streamer('tcp://192.168.1.16:7777')
+infraredStreamer = Streamer.Streamer('tcp://*:7777')
 trackSensor = TrackSensor.TrackSensor(infraredStreamer)
 
 movementStream = movementComms.MovementComms('tcp://192.168.1.16:9999', movement, cameraVertical, cameraHorizontal, ultraSonicMover, led)

@@ -11,7 +11,7 @@ class UltrasonicComms:
         self.window = window
         self.context = zmq.Context()
         self.sock = self.context.socket(zmq.SUB)
-        self.sock.bind(url)
+        self.sock.connect(url)
         self.sock.setsockopt_string(zmq.SUBSCRIBE, np.unicode(''))
         
     def Loop(self):

@@ -15,7 +15,7 @@ class MovementComms:
 
         self.context = zmq.Context()
         self.sock = self.context.socket(zmq.PAIR)
-        self.sock.connect(url)
+        self.sock.bind(url)
         
         self.loop = 1
         

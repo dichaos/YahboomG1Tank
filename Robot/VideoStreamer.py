@@ -8,7 +8,7 @@ class VideoStreamer:
     def __init__(self, url):
         self.context = zmq.Context()
         self.footage_socket = self.context.socket(zmq.PUB)
-        self.footage_socket.connect(url)
+        self.footage_socket.bind(url)
 
         self.camera = cv2.VideoCapture(0)  # init the camera
         self.loop = 0
