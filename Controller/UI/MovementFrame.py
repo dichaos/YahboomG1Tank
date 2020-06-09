@@ -48,7 +48,6 @@ class MovementFrame(tk.LabelFrame):
             self.config(width=event.width, height=event.height)
 
     def upButton(self, t):
-        print(self.movementComms)
         if self.movementComms is not None:
             self.movementComms.MoveForward()
     

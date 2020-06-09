@@ -65,7 +65,6 @@ class MainWindow(Frame):
     def Connect(self):
         wait = self.wait()
         self.ConnectionPanel.CreateConnections(self)
-        print("Done connecting")
         wait.destroy()
         self.enableChildren(self)
 
@@ -83,7 +82,6 @@ class MainWindow(Frame):
     def enableChildren(self, parent):
         for child in parent.winfo_children():
             wtype = child.winfo_class()
-            print (wtype)
             if wtype not in ('Frame','Labelframe'):
                 child.configure(state='normal')
             else:
@@ -92,8 +90,9 @@ class MainWindow(Frame):
     def wait(self):
         win = Toplevel(self)
         
-        win.geometry("800x300")
+        win.geometry("800x300+300+300")
         win.overrideredirect(1)
+        win.lift()
         l = Label(win, text='Wait to connect please...')
         l.config(font=("Courier", 30))
         l.pack(fill="none", expand=True)
