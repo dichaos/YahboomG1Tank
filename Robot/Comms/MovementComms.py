@@ -50,6 +50,8 @@ class MovementComms:
                     self.buzzer.Buzz()
                 elif frame=="BuzzOff":
                     self.buzzer.stop()
+                elif frame.startswith('Speed:'):
+                    self.movement.SetSpeed(int(frame.split(":")[1]))
 
             except Exception as e:
                 traceback.print_exc()

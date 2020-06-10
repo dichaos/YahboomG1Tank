@@ -7,6 +7,7 @@ root = Tk()
 
 #create window
 root.geometry("1024x600")
+#root.geometry("800x480")
 root.resizable(False, False)
 
 if platform != "win32":
