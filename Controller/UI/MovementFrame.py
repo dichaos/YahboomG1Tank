@@ -3,48 +3,45 @@ import tkinter as tk
 from UI.TriangleButton import *
 
 class MovementFrame(tk.LabelFrame):
-    def __init__(self, master, width, height, text):
-        super(MovementFrame, self).__init__(master, width = width, height = height, text = text)
+    def __init__(self, master):
+        super(MovementFrame, self).__init__(master, width=235, height=145, text="Tank Movement")
         self.movementComms = None
 
         self._job = None
         self.root = master
 
-        labelForm = LabelFrame(self, width = 150, height = 150)
+        movementLabelFrame = LabelFrame(self, width = 150, height = 150, borderwidth=0)
 
-        upButton = TriangleButton(labelForm, 'up')
-        downButton = TriangleButton(labelForm, 'down')
-        leftButton = TriangleButton(labelForm, 'left')
-        rightButton = TriangleButton(labelForm, 'right')
-        labelForm.grid_propagate('false')
-        labelForm.pack_propagate(0)
+        upButton = TriangleButton(movementLabelFrame, 'up')
+        downButton = TriangleButton(movementLabelFrame, 'down')
+        leftButton = TriangleButton(movementLabelFrame, 'left')
+        rightButton = TriangleButton(movementLabelFrame, 'right')
+        movementLabelFrame.grid_propagate('false')
+        movementLabelFrame.pack_propagate(0)
+            
+        movementLabelFrame.columnconfigure(0, weight=1)
+        movementLabelFrame.columnconfigure(1, weight=1)
+        movementLabelFrame.columnconfigure(2, weight=1)
 
-        labelForm.columnconfigure(0, weight=1)
-        labelForm.columnconfigure(1, weight=1)
-        labelForm.columnconfigure(2, weight=1)
-
-        labelForm.rowconfigure(0, weight=1)
-        labelForm.rowconfigure(1, weight=1)
-        labelForm.rowconfigure(2, weight=1)
+        movementLabelFrame.rowconfigure(0, weight=1)
+        movementLabelFrame.rowconfigure(1, weight=1)
+        movementLabelFrame.rowconfigure(2, weight=1)
 
         upButton.grid(row = 0, column = 1, sticky=NSEW)
         downButton.grid(row = 2, column = 1, sticky=NSEW)
         leftButton.grid(row = 1, column = 0, sticky=NSEW)
         rightButton.grid(row =1, column = 2, sticky=NSEW)
-
-
         
-        speedLabelFrame = LabelFrame(self, width = 50, height = 160)
-        self.SpeedLabel = Label(speedLabelFrame, text= "Speed")
-        self.SpeedLabel.grid(row = 0, column = 0, sticky = NSEW)
-
-        #self.slider = Scale(speedLabelFrame, from_=100, to=0)
+        speedLabelFrame = LabelFrame(self, borderwidth=0, padx = 0, pady= 0)
+        self.SpeedLabel = Label(speedLabelFrame, text= "Speed", anchor=CENTER)
+        self.SpeedLabel.pack(side=TOP, expand=True, anchor = CENTER)
+        
         self.slider = Scale(speedLabelFrame, from_=100, to=0, command=self.setSpeed)
-        self.slider.grid(row = 1, column = 0, columnspan=2, sticky = NSEW)
+        self.slider.pack(side=BOTTOM, expand=True, anchor = CENTER)
         self.slider.set(50)
 
-        labelForm.pack(side=LEFT, fill=BOTH, expand=True)
-        speedLabelFrame.pack(side=LEFT, fill=BOTH, expand=True)
+        movementLabelFrame.pack(side=LEFT, expand=True)
+        speedLabelFrame.pack(side=RIGHT, fill=BOTH, expand=True)
 
         upButton.bind('<ButtonPress-1>',self.upButton)
         upButton.bind('<ButtonRelease-1>',self.stop_motor)
@@ -88,8 +85,6 @@ class MovementFrame(tk.LabelFrame):
             self.movementComms.MoveStop()
 
     def setSpeed(self, event):
-        print(event)
-
         if self._job:
             self.root.after_cancel(self._job)
 
@@ -97,6 +92,6 @@ class MovementFrame(tk.LabelFrame):
 
     def sendNewSpeed(self):
         value = self.slider.get()
-        print(value)
+
         if self.movementComms is not None:
             self.movementComms.SetSpeed(value)

@@ -3,8 +3,8 @@ import tkinter as tk
 from UI.TriangleButton import *
 
 class TrackSensorFrame(tk.LabelFrame):
-    def __init__(self, master, width, height, text):
-        super(TrackSensorFrame, self).__init__(master, width = width, height = height, text = text)
+    def __init__(self, master):
+        super(TrackSensorFrame, self).__init__(master, width=310, height = 40, text = "Tracking Sensor")
 
         self.grid_propagate('false')
         self.grid_columnconfigure(0, weight=1)

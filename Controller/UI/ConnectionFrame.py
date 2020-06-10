@@ -11,8 +11,8 @@ import tkinter as tk
 import os
 
 class ConnectionFrame(tk.LabelFrame):
-    def __init__(self, master, width, height, text):
-        super(ConnectionFrame, self).__init__(master, width = width, height = height, text = text)
+    def __init__(self, master):
+        super(ConnectionFrame, self).__init__(master, text = "Connection")
 
         lb1 = Label(self, text ='IP:')
         lb1.grid(row = 0, column = 0, sticky = E, padx= 3, pady = 3)

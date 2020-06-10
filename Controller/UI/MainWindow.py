@@ -23,27 +23,27 @@ class MainWindow(Frame):
 
         self.columnconfigure(1, weight = 2)
 
-        self.ConnectionPanel = ConnectionFrame(self, width = 135, height = 5, text = "Connection")
+        self.ConnectionPanel = ConnectionFrame(self)
         self.ConnectionPanel.grid(row=0, column =0, sticky="nsew")
         
-        self.MovementPanel = MovementFrame(self, width=135, height=145, text="Tank Movement")
-        self.MovementPanel.grid(row = 1, column = 0)
+        self.MovementPanel = MovementFrame(self)
+        self.MovementPanel.grid(row = 1, column = 0, sticky = "nsew")
         
-        self.ultrasonicPanel = UltrasonicFrame(self, width=310, height=100, text="Ultrasonic Sensor")
+        self.ultrasonicPanel = UltrasonicFrame(self)
         self.ultrasonicPanel.grid(row = 2, column =0, sticky = "nw")
 
-        self.trackSensorFrame = TrackSensorFrame(self, width=310, height = 45, text = "Tracking Sensor")
+        self.trackSensorFrame = TrackSensorFrame(self)
         self.trackSensorFrame.grid(row = 3, column = 0, sticky ="nw")
 
-        self.ledColorFrame = LedColorFrame(self, width= 310, height = 200, text = "Headlights")
+        self.ledColorFrame = LedColorFrame(self)
         self.ledColorFrame.grid(row=4, column=0, sticky ="nw")
 
-        self.BuzzerFrame = BuzzerFrame(self, width=310, height = 50, text = "Buzzer")
+        self.BuzzerFrame = BuzzerFrame(self)
         self.BuzzerFrame.grid(row=5, column = 0, sticky = "nsew")
         
-        self.CameraFrame = CameraFrame(self, 152,150, "Camera")
+        self.CameraFrame = CameraFrame(self)
         self.CameraFrame.pack_propagate(0)
-        self.CameraFrame.grid(row =0, column = 1, rowspan=6, sticky="nsew", padx =2, pady = 5)
+        self.CameraFrame.grid(row =0, column = 1, rowspan=6, sticky="nsew")
 
         self.disableChildren(self)
         self.DoTheConnection()

@@ -2,8 +2,8 @@ from tkinter import *
 import tkinter as tk
 
 class UltrasonicFrame(tk.LabelFrame):
-    def __init__(self, master, width, height, text):
-        super(UltrasonicFrame, self).__init__(master, width = width, height = height, text = text)
+    def __init__(self, master):
+        super(UltrasonicFrame, self).__init__(master, width=310, height=76, text="Ultrasonic Sensor")
         self.movementComms = None
         self._job = None
         self.root = master
@@ -11,7 +11,7 @@ class UltrasonicFrame(tk.LabelFrame):
         self.grid_propagate('false')
         self.grid_columnconfigure(0, weight=1)
 
-        self.slider = Scale(self, from_=2500, to=500, orient=HORIZONTAL, command=self.updateValue)
+        self.slider = Scale(self, from_=2500, to=500, orient=HORIZONTAL, command=self.updateValue, showvalue='false')
         self.slider.grid(row = 0, column = 0, columnspan=2, sticky = NSEW, ipadx=2, ipady =2)
         self.slider.set(1500)
 
@@ -19,7 +19,7 @@ class UltrasonicFrame(tk.LabelFrame):
         self.DistanceLabel.grid(row = 1, column = 0, sticky = NSEW, ipadx=2, ipady =2)
 
         self.CenterButton = Button(self, text="Center", command=self.center)
-        self.CenterButton.grid(row = 1, column = 1, sticky = NSEW, ipadx=2, ipady =2)
+        self.CenterButton.grid(row = 1, column = 1, sticky = NSEW, ipadx=4, ipady =2)
 
         self.bind('<Configure>', self._on_resize)
 

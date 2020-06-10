@@ -8,19 +8,19 @@ from PIL import *
 
 
 class CameraFrame(LabelFrame):
-    def __init__(self, master, width, height, text):
-        super(CameraFrame, self).__init__(master, width = width, height = height, text = text)
+    def __init__(self, master):
+        super(CameraFrame, self).__init__(master, width = 300, height = 140, text = "Camera")
         self.movementComms = None
         self._job1 = None
         self._job2 = None
         self.root = master
 
-        self.HorizontalSlider = Scale(self, from_=2500, to=500, orient =HORIZONTAL, command=self.updateHorizontal)
-        self.VerticalSlider = Scale(self, from_=2500, to=500, command=self.updateVertical)
+        self.HorizontalSlider = Scale(self, from_=2500, to=500, orient =HORIZONTAL, command=self.updateHorizontal, showvalue='false')
+        self.VerticalSlider = Scale(self, from_=2500, to=500, command=self.updateVertical, showvalue='false')
         self.CenterButton = Button(self, text="Center", command=self.center)
         
-        self.HorizontalSlider.grid(row = 0, column = 1, sticky = NSEW)
-        self.VerticalSlider.grid(row = 1, column = 0, sticky = NSEW)
+        self.HorizontalSlider.grid(row = 0, column = 1, sticky = EW+S)
+        self.VerticalSlider.grid(row = 1, column = 0, sticky = NS+E)
         self.CenterButton.grid(row = 0, column = 0, sticky = NSEW, ipadx=2, ipady =2)
 
         self.HorizontalSlider.set(1500)

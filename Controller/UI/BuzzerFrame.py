@@ -2,8 +2,8 @@ from tkinter import *
 import tkinter as tk
 
 class BuzzerFrame(tk.LabelFrame):
-    def __init__(self, master, width, height, text):
-        super(BuzzerFrame, self).__init__(master, width = width, height = height, text = text)
+    def __init__(self, master):
+        super(BuzzerFrame, self).__init__(master, text = "Buzzer")
         self.movementComms = None
         upButton = Button(self, text='Annoy')
         upButton.pack(fill=BOTH, expand=True)
