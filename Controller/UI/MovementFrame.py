@@ -33,11 +33,11 @@ class MovementFrame(tk.LabelFrame):
         rightButton.grid(row =1, column = 2, sticky=NSEW)
         
         speedLabelFrame = LabelFrame(self, borderwidth=0, padx = 0, pady= 0)
-        self.SpeedLabel = Label(speedLabelFrame, text= "Speed", anchor=CENTER)
-        self.SpeedLabel.pack(side=TOP, expand=True, anchor = CENTER)
+        self.SpeedLabel = Label(speedLabelFrame, text= "Speed")
+        self.SpeedLabel.pack(side=TOP, fill=BOTH)
         
         self.slider = Scale(speedLabelFrame, from_=100, to=0, command=self.setSpeed)
-        self.slider.pack(side=BOTTOM, expand=True, anchor = CENTER)
+        self.slider.pack(side=BOTTOM, fill=Y, expand=True, anchor = CENTER)
         self.slider.set(50)
 
         movementLabelFrame.pack(side=LEFT, expand=True)
