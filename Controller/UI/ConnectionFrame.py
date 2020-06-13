@@ -58,10 +58,13 @@ class ConnectionFrame(tk.LabelFrame):
         app.ledColorFrame.SetMovement(movement)
         app.CameraFrame.SetMovement(movement)
         app.BuzzerFrame.SetMovement(movement)
+        
 
 
         #create read comms
         audioStream = a.AudioComms('tcp://'+self.ip+':5556')
+        app.AudioFrame.SetAudio(audioStream)
+
         videoStream = c.VideoComms('tcp://'+self.ip+':5555', app)
         ultrasonicStream = u.UltrasonicComms('tcp://'+self.ip+':6666', app)
         infraredStream = i.InfraredComms('tcp://'+self.ip+':7777', app)

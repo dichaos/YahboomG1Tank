@@ -11,6 +11,7 @@ import threading
 import numpy as np
 import pyaudio
 import zmq
+import wave
 
 class AudioComms:
     def __init__(self, url):
@@ -22,15 +23,20 @@ class AudioComms:
         FS = 44100  # Hz
         self.pya = pyaudio.PyAudio()
         self.stream = self.pya.open(format=pyaudio.paInt16, channels=1, rate=FS, output=True)
-        
-
+            
         self.loop = 1
+        self.record = 0
+        self.frames = []
         
     def Loop(self):
         while self.loop == 1:
             try:
                 frame = self.sock.recv_string()
                 audio = base64.b64decode(frame)
+
+                if self.Record == 1:
+                    self.frames.append(audio)
+
                 self.stream.write(audio)
 
             except Exception as e:
@@ -50,3 +56,17 @@ class AudioComms:
 
     def stop(self):
         self.loop = 0
+
+    def Record(self):
+        if self.record == 0:
+            self.frames = []
+            self.record = 1
+    
+    def RecordStop(self, filename):
+        if self.record == 1:
+            wf = wave.open(filename, 'wb')
+            wf.setnchannels(1)
+            wf.setsampwidth(self.pya.get_sample_size(pyaudio.paInt16))
+            wf.setframerate(44100)
+            wf.writeframes(b''.join(self.frames))
+            wf.close()
