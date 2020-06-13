@@ -10,9 +10,11 @@ import RPi.GPIO as GPIO
 import Comms.MovementComms as movementComms
 import Comms.VideoStreamer as videoStreamer
 import Comms.Streamer as Streamer
+import Audio.AudioStreamer as AudioStreamer
+import Audio.MicrophoneRecorder as Microphone
 
 
-def cleanup(servo1, servo2, servo3, led, beeper, video, track, movement, ultrasonicreader):
+def cleanup(servo1, servo2, servo3, led, beeper, video, track, movement, ultrasonicreader, microphoneRecorder):
     movement.stop()
     servo1.stop()
     servo2.stop()
@@ -21,6 +23,7 @@ def cleanup(servo1, servo2, servo3, led, beeper, video, track, movement, ultraso
     beeper.stop()
     video.stop()
     track.stop()
+    microphoneRecorder.stop()
     ultrasonicreader.stop()
     GPIO.cleanup()
     print("cleaned up")
@@ -35,6 +38,8 @@ led = LED.LED()
 
 # Start streaming video
 videoStreamer = videoStreamer.VideoStreamer('tcp://*:5555')
+audioStreamer = AudioStreamer.AudioStreamer('tcp://*:5556')
+microphoneRecorder = Microphone.MicrophoneRecorder(audioStreamer)
 
 # Start streaming Ultrasonic sensor values
 ultrasonicStreamer = Streamer.Streamer('tcp://*:6666')
@@ -49,8 +54,10 @@ trackSensor.start()
 ultrasonic.start()
 videoStreamer.start()
 movementStream.start()
+microphoneRecorder.start()
+#microphoneRecorder = None
 
-atexit.register(cleanup, ultraSonicMover, cameraHorizontal, cameraVertical, led, buzzer, videoStreamer, trackSensor, movementStream, ultrasonic)
+atexit.register(cleanup, ultraSonicMover, cameraHorizontal, cameraVertical, led, buzzer, videoStreamer, trackSensor, movementStream, ultrasonic, microphoneRecorder)
 
 print("All started")
 buzzer.Buzz()
