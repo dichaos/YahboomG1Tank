@@ -38,11 +38,11 @@ class MovementComms:
                 elif frame=="Turn Right":
                     self.movement.TurnRight()
                 elif frame.startswith('CameraLeftRight'):
-                    self.cameraHorizontal.Set(int(frame.split(":")[1]))
+                    self.cameraHorizontal.Set(float(frame.split(":")[1]))
                 elif frame.startswith('CameraUpDown'):
-                    self.cameraVertical.Set(int(frame.split(":")[1]))
+                    self.cameraVertical.Set(float(frame.split(":")[1]))
                 elif frame.startswith('Ultra:'):
-                    self.ultrasonicMovement.Set(int(frame.split(":")[1]))
+                    self.ultrasonicMovement.Set(float(frame.split(":")[1]))
                 elif frame.startswith('Color:'):
                     colors = frame.split(":")[1]
                     self.led.SetRGB(int(colors.split(",")[0]),int(colors.split(",")[1]),int(colors.split(",")[2]))
