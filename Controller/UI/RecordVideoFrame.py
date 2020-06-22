@@ -1,9 +1,9 @@
 from tkinter import *
 import tkinter as tk
 
-class AudioFrame(tk.LabelFrame):
+class RecordVideoFrame(tk.LabelFrame):
     def __init__(self, master):
-        super(AudioFrame, self).__init__(master, text = "Audio")
+        super(RecordVideoFrame, self).__init__(master, text = "Audio")
         self.AudioComms = None
 
         self.muteButton = Button(self, text='Mute', command = self.Mute)

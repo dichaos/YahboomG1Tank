@@ -20,9 +20,9 @@ class AudioComms:
         self.sock = self.context.socket(zmq.SUB)
         self.sock.connect(url)
         self.sock.setsockopt_string(zmq.SUBSCRIBE, np.unicode(''))
-        FS = 44100  # Hz
-        self.pya = pyaudio.PyAudio()
-        self.stream = self.pya.open(format=pyaudio.paInt16, channels=1, rate=FS, output=True)
+        self.FS = 44100  # Hz
+        
+        
             
         self.loop = 1
         self.record = 0
@@ -50,6 +50,9 @@ class AudioComms:
 
     def start(self):
         self.loop = 1
+        self.pya = pyaudio.PyAudio()
+        self.stream = self.pya.open(format=pyaudio.paInt16, channels=1, rate=self.FS, output=True)
+
         thread = threading.Thread(target=self.Loop)
         thread.daemon = True       
         thread.start()

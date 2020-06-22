@@ -19,12 +19,6 @@ class MicrophoneRecorder():
         record_secs = 3 # seconds to record
         dev_index = 0 # device index found by p.get_device_info_by_index(ii)
 
-        #self.stream = self.p.open(format=pyaudio.paInt16,
-        #                          channels=1,
-        #                          rate=FS,
-        #                          input=True,
-        #                          input_device_index = 0,
-        #                          frames_per_buffer=CHUNKSZ)
         devinfo = self.p.get_device_info_by_index(0)
         print(devinfo)
 
@@ -37,7 +31,7 @@ class MicrophoneRecorder():
         self.loop = 0
 
     def read(self):
-        data = self.stream.read(self.chunk)
+        data = self.stream.read(self.chunk, exception_on_overflow = False)
         self.sender.send(data)
 
     def close(self):

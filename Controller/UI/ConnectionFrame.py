@@ -47,7 +47,7 @@ class ConnectionFrame(tk.LabelFrame):
             elif line.startswith("IP"):
                 self.ip = line.split("=")[1].strip()
 
-        #self.IPEntry.delete(0,"end")
+        self.IPEntry.delete(0,"end")
         self.IPEntry.insert(0, self.ip)
 
         movementStream = s.Streamer('tcp://'+self.ip+':9999')
@@ -59,11 +59,9 @@ class ConnectionFrame(tk.LabelFrame):
         app.CameraFrame.SetMovement(movement)
         app.BuzzerFrame.SetMovement(movement)
         
-
-
         #create read comms
         audioStream = a.AudioComms('tcp://'+self.ip+':5556')
-        app.AudioFrame.SetAudio(audioStream)
+        app.RecordVideoFrame.SetAudio(audioStream)
 
         videoStream = c.VideoComms('tcp://'+self.ip+':5555', app)
         ultrasonicStream = u.UltrasonicComms('tcp://'+self.ip+':6666', app)

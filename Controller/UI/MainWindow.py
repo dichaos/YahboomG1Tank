@@ -7,7 +7,7 @@ from UI.UltrasonicFrame import *
 from UI.TrackSensorFrame import *
 from UI.LedColorFrame import *
 from UI.BuzzerFrame import *
-from UI.AudioFrame import *
+from UI.RecordVideoFrame import *
 import threading
 import os
 
@@ -47,8 +47,8 @@ class MainWindow(Frame):
         self.BuzzerFrame = BuzzerFrame(smallGroup)
         self.BuzzerFrame.grid(row = 0, column = 1, sticky="new")
 
-        self.AudioFrame = AudioFrame(smallGroup)
-        self.AudioFrame.grid(row=1, column = 1, sticky="new")
+        self.RecordVideoFrame = RecordVideoFrame(smallGroup)
+        self.RecordVideoFrame.grid(row=1, column = 1, sticky="new")
 
         smallGroup.grid(row=4, column=0, sticky= "nsew")
         
