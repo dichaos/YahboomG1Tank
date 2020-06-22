@@ -32,7 +32,7 @@ class MicrophoneRecorder():
 
     def read(self):
         data = self.stream.read(self.chunk, exception_on_overflow = False)
-        self.sender.send(data)
+        self.sender.base64Send(data)
 
     def close(self):
         self.stream.stop_stream()

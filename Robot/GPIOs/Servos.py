@@ -3,6 +3,8 @@ import time
 import threading
 
 class Servo:
+    pulse_value = 0
+
     def __init__(self, servoPin):
         self.servoPin = servoPin
         self.pig = pigpio.pi()
@@ -14,12 +16,26 @@ class Servo:
         if angle < 500:
             angle = 0
 
+        self.pulse_value = angle
+
         self.pig.set_servo_pulsewidth(self.servoPin, angle)
         time.sleep(1)
 
     def stop(self):
         self.pig.set_servo_pulsewidth(self.servoPin, 0)
         self.pig.stop()
+
+    def ConvertRadsInPulseWidth(self, angle):
+        everyRadianInPulseWidth = 439.267642
+        rounded = "{:.10f}".format(float(angle))
+        pulseWithFromRadians = (everyRadianInPulseWidth * float(rounded))
+
+        moveFromCentre= 1435 + pulseWithFromRadians
+        return moveFromCentre
+
+    def ConvertPulseWidthInRads(self, angle):
+        everyRadianInPulseWidth = 439.267642
+        return angle/everyRadianInPulseWidth
         
 class UltrasonicServo(Servo):
     def __init__(self):
@@ -41,6 +57,7 @@ class CameraHorizontalServo(Servo):
         self.rotate(1500)
 
     def Set(self, value):
+        self.value = value
         self.rotate(value)
 
 class CameraVerticalServo(Servo):
@@ -52,5 +69,6 @@ class CameraVerticalServo(Servo):
         self.rotate(1500)
 
     def Set(self, value):
+        self.value = value
         self.rotate(value)
     

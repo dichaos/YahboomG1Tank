@@ -21,8 +21,6 @@ class AudioComms:
         self.sock.connect(url)
         self.sock.setsockopt_string(zmq.SUBSCRIBE, np.unicode(''))
         self.FS = 44100  # Hz
-        
-        
             
         self.loop = 1
         self.record = 0
