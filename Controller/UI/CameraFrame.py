@@ -16,16 +16,16 @@ class CameraFrame(LabelFrame):
         self._job2 = None
         self.root = master
 
-        self.HorizontalSlider = Scale(self, from_=2500, to=500, orient =HORIZONTAL, command=self.updateHorizontal, showvalue='false')
-        self.VerticalSlider = Scale(self, from_=2500, to=500, command=self.updateVertical, showvalue='false')
+        self.HorizontalSlider = Scale(self, from_=180, to=0, orient =HORIZONTAL, command=self.updateHorizontal, showvalue='false')
+        self.VerticalSlider = Scale(self, from_=180, to=0, command=self.updateVertical, showvalue='false')
         self.CenterButton = Button(self, text="Center", command=self.center)
         
         self.HorizontalSlider.grid(row = 0, column = 1, sticky = EW+S)
         self.VerticalSlider.grid(row = 1, column = 0, sticky = NS+E)
         self.CenterButton.grid(row = 0, column = 0, sticky = NSEW, ipadx=2, ipady =2)
 
-        self.HorizontalSlider.set(1500)
-        self.VerticalSlider.set(1500)
+        self.HorizontalSlider.set(90)
+        self.VerticalSlider.set(90)
 
         self.Video = Label(self, anchor ='nw',padx=0, pady=0)
         self.Video.grid(row=1, column=1, sticky='nsew',padx=5, pady=5)
@@ -90,5 +90,5 @@ class CameraFrame(LabelFrame):
             self.movementComms.CameraUpDownSetValue(self.VerticalSlider.get())
 
     def center(self):
-        self.HorizontalSlider.set(1500)
-        self.VerticalSlider.set(1500)
+        self.HorizontalSlider.set(90)
+        self.VerticalSlider.set(90)

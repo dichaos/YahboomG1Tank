@@ -3,22 +3,25 @@ import time
 import threading
 
 class Servo:
-    pulse_value = 0
-
     def __init__(self, servoPin):
         self.servoPin = servoPin
         self.pig = pigpio.pi()
         self.pig.set_mode(servoPin, pigpio.OUTPUT)
 
     def rotate(self, angle):
-        if angle > 2500:
-            angle = 2500
-        if angle < 500:
-            angle = 0
+        self.angle_value = angle
+        pulse = self.ConvertRadsInPulseWidth(angle)
+        self.setPulse(pulse)
 
-        self.pulse_value = angle
+    def setPulse(self, pulse):
+        if pulse > 2500:
+            pulse = 2500
+        if pulse < 500:
+            pulse = 0
 
-        self.pig.set_servo_pulsewidth(self.servoPin, angle)
+        self.pulse_value = pulse
+        
+        self.pig.set_servo_pulsewidth(self.servoPin, pulse)
         time.sleep(1)
 
     def stop(self):
@@ -26,24 +29,18 @@ class Servo:
         self.pig.stop()
 
     def ConvertRadsInPulseWidth(self, angle):
-        everyRadianInPulseWidth = 439.267642
-        rounded = "{:.10f}".format(float(angle))
-        pulseWithFromRadians = (everyRadianInPulseWidth * float(rounded))
+        return ((2000*angle)/180) + 500
 
-        moveFromCentre= 1435 + pulseWithFromRadians
-        return moveFromCentre
+    def ConvertPulseWidthInRads(self, pulse):
+        return (180*(pulse-500))/2000
 
-    def ConvertPulseWidthInRads(self, angle):
-        everyRadianInPulseWidth = 439.267642
-        return angle/everyRadianInPulseWidth
-        
 class UltrasonicServo(Servo):
     def __init__(self):
         super().__init__(23)
         self.Forward()
 
     def Forward(self):
-        self.rotate(1500)
+        self.rotate(90)
 
     def Set(self, value):
         self.rotate(value)
@@ -54,7 +51,7 @@ class CameraHorizontalServo(Servo):
         self.Forward()
         
     def Forward(self):
-        self.rotate(1500)
+        self.rotate(90)
 
     def Set(self, value):
         self.value = value
@@ -66,7 +63,7 @@ class CameraVerticalServo(Servo):
         self.Forward()
 
     def Forward(self):
-        self.rotate(1500)
+        self.rotate(90)
 
     def Set(self, value):
         self.value = value
