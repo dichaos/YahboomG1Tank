@@ -1,67 +1,95 @@
-import GPIOs.Servos as Servos
-import GPIOs.LEDs as LED
-import GPIOs.Buzzer as Buzzer
-import GPIOs.Ultrasonic as Ultrasonic
-import GPIOs.TrackSensor as TrackSensor
 import time
 import atexit
 import RPi.GPIO as GPIO
-import Comms.MovementComms as movementComms
-import Comms.Streamer as Streamer
-import MicrophoneRecorder as Microphone
-import VideoRecorder as Video
+import Comms.CommsManager as CommsManager
+import Comms.RobotSocketServer as RobotSocketServer
+import Comms.UDPSender as UDPServer
+import GPIOs.Buzzer as Buzzer
+import GPIOs.LEDs as LEDs
+import GPIOs.Servos as Servos
 import GPIOs.TankMovement as TankMovement
+import GPIOs.TrackSensor as TrackSensor
+import GPIOs.Ultrasonic as Ultrasonic
+import Recorders.MicrophoneRecorder as MicrophoneRecorder
+import Recorders.VideoRecorder as VideoRecorder
 
-def cleanup(servo1, servo2, servo3, led, beeper, video, track, movement, ultrasonicreader, microphoneRecorder):
-    movement.stop()
-    servo1.stop()
-    servo2.stop()
-    servo3.stop()
-    led.TurnOff()
-    beeper.stop()
-    video.stop()
-    track.stop()
-    microphoneRecorder.stop()
-    ultrasonicreader.stop()
-    GPIO.cleanup()
-    print("cleaned up")
+
+buzzer = Buzzer.Buzzer()
+led = LEDs.LEDs()
 
 movement = TankMovement.TankMovement()
 ultraSonicMover = Servos.UltrasonicServo()
 cameraHorizontal = Servos.CameraHorizontalServo()
 cameraVertical = Servos.CameraVerticalServo()
-buzzer = Buzzer.Buzzer()
+ultrasonicSensor = Ultrasonic.Ultrasonic(1000)
+trackSensor = TrackSensor.TrackSensor(1001)
+videoRecorder = VideoRecorder.VideoRecorder(1002)
+microphoneRecorder = MicrophoneRecorder.MicrophoneRecorder(1003)
 
-led = LED.LED()
+commsManager = CommsManager.CommsManager(movement, 
+                                        cameraVertical, 
+                                        cameraHorizontal, 
+                                        ultraSonicMover, 
+                                        led, 
+                                        buzzer, 
+                                        trackSensor, 
+                                        ultrasonicSensor, 
+                                        videoRecorder, 
+                                        microphoneRecorder)
+                                        
+robotSocketServer = RobotSocketServer.RobotSocketServer()
 
-# Start streaming video
-videoStreamer = Streamer.Streamer('tcp://*:5555')
-audioStreamer = Streamer.Streamer('tcp://*:5556')
-microphoneRecorder = Microphone.MicrophoneRecorder(audioStreamer)
-videoRecorder = Video.VideoRecorder(videoStreamer, cameraHorizontal, cameraVertical)
-
-# Start streaming Ultrasonic sensor values
-ultrasonicStreamer = Streamer.Streamer('tcp://*:6666')
-ultrasonic = Ultrasonic.Ultrasonic(ultrasonicStreamer)
-
-infraredStreamer = Streamer.Streamer('tcp://*:7777')
-trackSensor = TrackSensor.TrackSensor(infraredStreamer)
-
-movementStream = movementComms.MovementComms('tcp://*:9999', movement, cameraVertical, cameraHorizontal, ultraSonicMover, led, buzzer)
+robotSocketServer.start(9999, commsManager)
 
 trackSensor.start()
-ultrasonic.start()
-movementStream.start()
-microphoneRecorder.start()
+ultrasonicSensor.start()
 videoRecorder.start()
+microphoneRecorder.start()
 
-
-atexit.register(cleanup, ultraSonicMover, cameraHorizontal, cameraVertical, led, buzzer, videoRecorder, trackSensor, movementStream, ultrasonic, microphoneRecorder)
-
-print("All started")
 buzzer.Buzz()
 time.sleep(0.5)
 buzzer.stop()
+print("All started")
+
+def cleanup(buzzer,
+            led,
+            movement,
+            ultraSonicMover,
+            cameraHorizontal,
+            cameraVertical,
+            ultrasonicSensor,
+            trackSensor,
+            videoRecorder,
+            microphoneRecorder,
+            robotSocketServer):
+    GPIO.cleanup()
+    buzzer.stop()
+    led.TurnOff()
+    ultraSonicMover.stop()
+    cameraHorizontal.stop()
+    cameraVertical.stop()
+    ultrasonicSensor.stop()
+    trackSensor.stop()
+    videoRecorder.stop()
+    microphoneRecorder.stop()
+    robotSocketServer.stop()
+    microphoneRecorder.close()
+    print("cleaned up")
+
+
+atexit.register(cleanup, 
+                buzzer,
+                led,
+                movement,
+                ultraSonicMover,
+                cameraHorizontal,
+                cameraVertical,
+                ultrasonicSensor,
+                trackSensor,
+                videoRecorder,
+                microphoneRecorder,
+                robotSocketServer
+                )
 
 k=input("press close to exit") 
 

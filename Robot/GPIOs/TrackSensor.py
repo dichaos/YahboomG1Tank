@@ -1,10 +1,11 @@
 import RPi.GPIO as GPIO
+import SensorReader
 import threading
 import time
 
-class TrackSensor:
-    def __init__(self, streamer = None):
-        self.streamer = streamer
+class TrackSensor(SensorReader.SensorReader):
+    def __init__(self, port):
+        super(TrackSensor, self).__init__()
         self.TrackSensorLeftPin1  =  3   #The first tracking infrared sensor pin on the left is connected to  BCM port 3 of Raspberry pi
         self.TrackSensorLeftPin2  =  5   #The second tracking infrared sensor pin on the left is connected to  BCM port 5 of Raspberry pi
         self.TrackSensorRightPin1 =  4   #The first tracking infrared sensor pin on the right is connected to  BCM port 4 of Raspberry pi
@@ -16,9 +17,10 @@ class TrackSensor:
         GPIO.setup(self.TrackSensorLeftPin2,GPIO.IN)
         GPIO.setup(self.TrackSensorRightPin1,GPIO.IN)
         GPIO.setup(self.TrackSensorRightPin2,GPIO.IN)
-        self.loop = 0
+        
+        self.port = port
 
-    def tracking_test(self):
+    def ReadValue(self):
         #When the black line is detected, the corresponding indicator of the tracking module is on, and the port level is LOW.
         #When the black line is not detected, the corresponding indicator of the tracking module is off, and the port level is HIGH.
         TrackSensorLeftValue1  = GPIO.input(self.TrackSensorLeftPin1)
@@ -30,23 +32,6 @@ class TrackSensor:
         infrared_track_value_list[1] =str(1^ TrackSensorLeftValue2)
         infrared_track_value_list[2] = str(1^ TrackSensorRightValue1)
         infrared_track_value_list[3] = str(1^ TrackSensorRightValue2)
-        return ''.join(infrared_track_value_list)
-    
-    def Loop(self):
-        while self.loop == 1:
-            track = self.tracking_test()
-            
-            if self.streamer is not None:
-                self.streamer.Send(track)
 
-            #print ("Tracking = " , track)
-            time.sleep(1)
-        
-    def start(self):
-        self.loop = 1
-        thread = threading.Thread(target=self.Loop)
-        thread.daemon = True       
-        thread.start()
-
-    def stop(self):
-        self.loop = 0
+        toReturn = ''.join(infrared_track_value_list)
+        return toReturn

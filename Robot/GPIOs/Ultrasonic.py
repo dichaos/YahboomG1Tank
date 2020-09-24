@@ -2,19 +2,23 @@ import RPi.GPIO as GPIO
 import time
 import threading
 import traceback
+import SensorReader
 
-class Ultrasonic:
-    def __init__(self, streamer = None):
+class Ultrasonic(SensorReader.SensorReader):
+    def __init__(self, port):
+        super(Ultrasonic, self).__init__()
         self.EchoPin = 0
         self.TrigPin = 1
-        self.streamer = streamer
+
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.EchoPin,GPIO.IN)
         GPIO.setup(self.TrigPin,GPIO.OUT)
-        self.loop = 0
 
-    def distance(self):
+        self.port = port
+
+
+    def ReadValue(self):
         # set Trigger to HIGH
         GPIO.output(self.TrigPin, True)
     
@@ -39,23 +43,6 @@ class Ultrasonic:
         # and divide by 2, because there and back
         distance = (TimeElapsed * 34300) / 2
     
-        return distance
-    
-    def Loop(self):
-        while self.loop == 1:
-            dist = self.distance()
-            
-            if self.streamer is not None:
-                self.streamer.Send(str(round(dist,2)))
+        toReturn = str(round(distance,2)).encode()
+        return toReturn
 
-            #print ("Distance = %.1f cm" % dist)
-            time.sleep(1)
-        
-    def start(self):
-        self.loop = 1
-        thread = threading.Thread(target=self.Loop)
-        thread.daemon = True       
-        thread.start()
-
-    def stop(self):
-        self.loop = 0

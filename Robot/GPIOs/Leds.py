@@ -1,6 +1,6 @@
 import pigpio
 
-class LED:
+class LEDs:
     def __init__(self):
         self.LED_R = 22
         self.LED_G = 27
