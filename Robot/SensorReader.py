@@ -15,9 +15,7 @@ class SensorReader(UDPSender.UDPSender):
     def Loop(self):
         while self.loop == 1:
             track = self.ReadValue()
-            
             self.Send(track)
-            time.sleep(1)
         
     def start(self):
         self.loop = 1

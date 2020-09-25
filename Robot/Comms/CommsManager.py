@@ -5,62 +5,94 @@ import traceback
 import threading
 import numpy as np
 import socketserver
+import Comms.UDPSender as UDPServer
+import GPIOs.Buzzer as Buzzer
+import GPIOs.LEDs as LEDs
+import GPIOs.Servos as Servos
+import GPIOs.TankMovement as TankMovement
+import GPIOs.TrackSensor as TrackSensor
+import GPIOs.Ultrasonic as Ultrasonic
+import Recorders.MicrophoneRecorder as MicrophoneRecorder
+import Recorders.VideoRecorder as VideoRecorder
+
+buzzer = Buzzer.Buzzer()
+led = LEDs.LEDs()
+ultrasonicMovement = Servos.CameraVerticalServo()
+cameraHorizontal = Servos.CameraHorizontalServo()
+cameraVertical = Servos.UltrasonicServo()
+movement = TankMovement.TankMovement()
+trackSensor = TrackSensor.TrackSensor(1001)
+ultrasonicSensor = Ultrasonic.Ultrasonic(1000)
+videoRecorder = VideoRecorder.VideoRecorder(1002)
+audioRecorder = MicrophoneRecorder.MicrophoneRecorder(1003)
+
+def Cleanup():
+    buzzer.stop()
+    led.TurnOff()
+    ultrasonicMovement.stop()
+    cameraHorizontal.stop()
+    cameraVertical.stop()
+    movement.stop()
+    trackSensor.stop()
+    ultrasonicSensor.stop()
+    videoRecorder.stop()
+    audioRecorder.stop()
+
+def Start():
+    
+    ultrasonicSensor.start()
+    videoRecorder.start()
+    audioRecorder.start()
+    trackSensor.start()
+
+def Process(frame):
+    if frame==b"Move Stopped":
+        movement.stop()
+    elif frame==b"Move Forward":
+        movement.Forward()
+    elif frame==b"Move Backwards":
+        movement.Backwards()
+    elif frame==b"Turn Left":
+        movement.TurnLeft()
+    elif frame==b"Turn Right":
+        movement.TurnRight()
+    elif frame.startswith(b'CameraLeftRight'):
+        cameraHorizontal.Set(float(frame.split(b":")[1]))
+    elif frame.startswith(b'CameraUpDown'):
+        cameraVertical.Set(float(frame.split(b":")[1]))
+    elif frame.startswith(b'Ultra:'):
+        ultrasonicMovement.Set(float(frame.split(b":")[1]))
+    elif frame.startswith(b'Color:'):
+        colors = frame.split(b":")[1]
+        led.SetRGB(int(colors.split(b",")[0]),int(colors.split(b",")[1]),int(colors.split(b",")[2]))
+    elif frame==b"BuzzOn":
+        buzzer.Buzz()
+    elif frame==b"BuzzOff":
+        buzzer.stop()
+    elif frame.startswith(b'Speed:'):
+        movement.SetSpeed(int(frame.split(b":")[1]))
 
 class CommsManager(socketserver.StreamRequestHandler):
-    def __init__(self, movement, cameraVertical, cameraHorizontal, ultrasonicMovement, led, buzzer, trackSensor, ultrasonicSensor, videoRecorder, audioRecorder):
-        self.movement = movement
-        self.cameraVertical = cameraVertical
-        self.cameraHorizontal = cameraHorizontal
-        self.ultrasonicMovement = ultrasonicMovement
-        self.led = led
-        self.buzzer = buzzer
-
-        self.trackSensor = trackSensor
-        self.ultrasonicSensor = ultrasonicSensor
-        self.videoRecorder = videoRecorder
-        self.audioRecorder = audioRecorder
-
     def handle(self):
-        client = f'{self.client_address} on {threading.currentThread().getName()}'
-        print(f'Connected: {client}')
-
+        
         #I need to use the IP to send udp packets
-        self.trackSensor.SetIp(self.client_address)
-        self.ultrasonicSensor.SetIp(self.client_address)
-        self.videoRecorder.SetIp(self.client_address)
-        self.audioRecorder.SetIp(self.client_address)
+        trackSensor.SetIp(self.client_address[0])
+        ultrasonicSensor.SetIp(self.client_address[0])
+        videoRecorder.SetIp(self.client_address[0])
+        audioRecorder.SetIp(self.client_address[0])
+
+        Start()
 
         while True:
             data = self.rfile.readline()
             if not data:
                 break
-            self.Process(data)
+
+            Process(data.strip())
 
         print(f'Closed: {client}')
+        Cleanup()
         
-    def Process(self, frame):
-        if frame=="Move Stopped":
-            self.movement.Stop()
-        elif frame=="Move Forward":
-            self.movement.Forward()
-        elif frame=="Move Backwards":
-            self.movement.Backwards()
-        elif frame=="Turn Left":
-            self.movement.TurnLeft()
-        elif frame=="Turn Right":
-            self.movement.TurnRight()
-        elif frame.startswith('CameraLeftRight'):
-            self.cameraHorizontal.Set(float(frame.split(":")[1]))
-        elif frame.startswith('CameraUpDown'):
-            self.cameraVertical.Set(float(frame.split(":")[1]))
-        elif frame.startswith('Ultra:'):
-            self.ultrasonicMovement.Set(float(frame.split(":")[1]))
-        elif frame.startswith('Color:'):
-            colors = frame.split(":")[1]
-            self.led.SetRGB(int(colors.split(",")[0]),int(colors.split(",")[1]),int(colors.split(",")[2]))
-        elif frame=="BuzzOn":
-            self.buzzer.Buzz()
-        elif frame=="BuzzOff":
-            self.buzzer.stop()
-        elif frame.startswith('Speed:'):
-            self.movement.SetSpeed(int(frame.split(":")[1]))
+    
+
+    

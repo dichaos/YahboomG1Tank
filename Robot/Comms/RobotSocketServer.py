@@ -10,9 +10,9 @@ class mySocketServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     pass
 
 class RobotSocketServer:
-    def start(self, port, commsManager):
+    def start(self, port):
 
-        self.server = mySocketServer(('', port), commsManager) 
+        self.server = mySocketServer(('', port), CommsManager.CommsManager) 
         server_thread = threading.Thread(target=self.server.serve_forever)
         # Exit the server thread when the main thread terminates
         server_thread.daemon = True

@@ -1,11 +1,9 @@
 from tkinter import *
 import tkinter as tk
 import Comms.NetworkReader as NetworkReader
-from Comms.VideoComms import *
 import Comms.VideoComms as c
 import Comms.UtrasonicComms as u
 import Comms.InfraredComms as i
-import Comms.Streamer as s
 import Comms.MovementComms as m
 import Comms.AudioComms as a
 import tkinter as tk
@@ -50,8 +48,11 @@ class ConnectionFrame(tk.LabelFrame):
         self.IPEntry.delete(0,"end")
         self.IPEntry.insert(0, self.ip)
 
-        movementStream = s.Streamer('tcp://'+self.ip+':9999')
-        movement = m.MovementComms(movementStream)
+        movement = m.MovementComms(self.ip, 9999)
+
+        
+        movement.start()
+        
 
         app.MovementPanel.SetMovement(movement)
         app.ultrasonicPanel.SetMovement(movement)
@@ -60,16 +61,17 @@ class ConnectionFrame(tk.LabelFrame):
         app.BuzzerFrame.SetMovement(movement)
         
         #create read comms
-        audioStream = a.AudioComms('tcp://'+self.ip+':5556')
-        app.RecordVideoFrame.SetAudio(audioStream)
+        ultrasonicStream = u.UltrasonicComms(1000, app)
+        infraredStream = i.InfraredComms(1001, app)
+        videoStream = c.VideoComms(1002, app)
+        audioStream = a.AudioComms(1003)
 
-        videoStream = c.VideoComms('tcp://'+self.ip+':5555', app)
-        ultrasonicStream = u.UltrasonicComms('tcp://'+self.ip+':6666', app)
-        infraredStream = i.InfraredComms('tcp://'+self.ip+':7777', app)
-
-        movementStream.start()
         videoStream.start()
         ultrasonicStream.start()
         infraredStream.start()
         audioStream.start()
+        app.RecordVideoFrame.SetAudio(audioStream)
+
+        
+        
         

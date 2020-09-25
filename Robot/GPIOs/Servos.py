@@ -36,7 +36,7 @@ class Servo:
 
 class UltrasonicServo(Servo):
     def __init__(self):
-        super().__init__(23)
+        super().__init__(9)
         self.Forward()
 
     def Forward(self):
@@ -59,7 +59,7 @@ class CameraHorizontalServo(Servo):
 
 class CameraVerticalServo(Servo):
     def __init__(self):
-        super().__init__(9)
+        super().__init__(23)
         self.Forward()
 
     def Forward(self):

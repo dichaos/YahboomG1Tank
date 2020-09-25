@@ -57,7 +57,7 @@ class MainWindow(Frame):
 
         self.disableChildren(self)
         self.DoTheConnection()
-
+        
     def newImage(self, image):
         self.CameraFrame.new_image(LastImage=image)
     

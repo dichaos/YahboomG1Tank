@@ -15,6 +15,7 @@ class UDPSender:
 
     def SetIp(self, ip):
         self.ip = ip
+        print("IP set to:"+self.ip)
 
     def Send(self, value):
 
@@ -27,14 +28,9 @@ class UDPSender:
 
         while count:
             array_pos_end = min(size, array_pos_start + self.MAX_IMAGE_DGRAM)
-
-            self.s.sendto(struct.pack("B", count)+value[array_pos_start:array_pos_end], (ip, port))
+            self.s.sendto(struct.pack("B", count)+value[array_pos_start:array_pos_end], (self.ip, self.port))
             array_pos_start = array_pos_end
             count -= 1
-
-    def base64Send(self, value):
-        as_text = base64.b64encode(value)
-        self.Send(as_text)
 
     def Stop(self):
         self.s.close()

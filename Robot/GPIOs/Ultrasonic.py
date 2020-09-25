@@ -19,6 +19,7 @@ class Ultrasonic(SensorReader.SensorReader):
 
 
     def ReadValue(self):
+        time.sleep(1)
         # set Trigger to HIGH
         GPIO.output(self.TrigPin, True)
     

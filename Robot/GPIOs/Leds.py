@@ -16,18 +16,18 @@ class LEDs:
         pulseGreen = (green * (2500-500))/255
         pulseBlue = (blue * (2500-500))/255
 
-        if pulseRed < 0:
-            pulseRed = 0
+        if pulseRed > 0 and pulseRed < 500:
+            pulseRed = 500
         elif pulseRed > 2500:
             pulseRed = 2500
 
-        if pulseGreen < 0:
-            pulseGreen = 0
+        if pulseGreen > 0 and pulseGreen < 500:
+            pulseGreen = 500
         elif pulseGreen > 2500:
             pulseGreen = 2500
 
-        if pulseBlue < 0:
-            pulseBlue = 0
+        if pulseBlue > 0 and pulseBlue < 500:
+            pulseBlue = 500
         elif pulseBlue > 2500:
             pulseBlue = 2500
 

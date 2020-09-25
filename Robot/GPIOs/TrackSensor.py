@@ -21,6 +21,7 @@ class TrackSensor(SensorReader.SensorReader):
         self.port = port
 
     def ReadValue(self):
+        time.sleep(1)
         #When the black line is detected, the corresponding indicator of the tracking module is on, and the port level is LOW.
         #When the black line is not detected, the corresponding indicator of the tracking module is off, and the port level is HIGH.
         TrackSensorLeftValue1  = GPIO.input(self.TrackSensorLeftPin1)
@@ -33,5 +34,5 @@ class TrackSensor(SensorReader.SensorReader):
         infrared_track_value_list[2] = str(1^ TrackSensorRightValue1)
         infrared_track_value_list[3] = str(1^ TrackSensorRightValue2)
 
-        toReturn = ''.join(infrared_track_value_list)
+        toReturn = ''.join(infrared_track_value_list).encode()
         return toReturn

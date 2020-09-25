@@ -25,7 +25,7 @@ class TankMovement():
         self.motor1.Backward()
         self.motor2.Forward()
 
-    def Stop(self):
+    def stop(self):
         self.motor1.Stop()
         self.motor2.Stop()
 

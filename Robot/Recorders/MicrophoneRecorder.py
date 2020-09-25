@@ -38,7 +38,6 @@ class MicrophoneRecorder(SensorReader.SensorReader):
         #self.getaudiodevices()
 
         self.stream = self.p.open(format = form_1,rate = samp_rate, channels = chans, input_device_index = dev_index,input = True,  frames_per_buffer=self.chunk)
-
         self.port = port
 
     def getaudiodevices(self):
