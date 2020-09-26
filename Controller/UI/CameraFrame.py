@@ -50,7 +50,7 @@ class CameraFrame(LabelFrame):
     def video_stream(self, width = 480, height = 640):
         cv_image = cv2.cvtColor(self.LastImage, cv2.COLOR_BGR2RGB)
         
-        #cv_image = FaceDetection.detect(cv_image)
+        cv_image = FaceDetection.detect(cv_image)
 
         pil_image = Image.fromarray(cv_image)
 

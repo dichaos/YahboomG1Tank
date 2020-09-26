@@ -34,6 +34,7 @@ class RecordVideoFrame(tk.LabelFrame):
             self.recordButton.configure(relief='sunken')
             self.recording = 1
         elif self.recording == 1:
-            self.AudioComms.start()
+            self.AudioComms.RecordStop('Audio.wav')
+            #self.AudioComms.start()
             self.recordButton.configure(relief='raised')
             self.recording = 0

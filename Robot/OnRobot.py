@@ -20,6 +20,3 @@ print("All started")
 
 atexit.register(cleanup, robotSocketServer)
 k=input("press close to exit") 
-
-
- 

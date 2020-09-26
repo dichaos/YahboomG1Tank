@@ -15,7 +15,8 @@ class AudioComms(UDPReader.UDPReader):
         try:
             audio = base64.b64decode(value)
 
-            if self.Record == 1:
+            if self.record == 1:
+                print("recoded audio")
                 self.frames.append(audio)
 
             self.stream.write(audio)
@@ -27,7 +28,6 @@ class AudioComms(UDPReader.UDPReader):
     def start(self):
         self.pya = pyaudio.PyAudio()
         self.stream = self.pya.open(format=pyaudio.paInt16, channels=1, rate=self.FS, output=True)
-
         super(AudioComms, self).start()
         
     def stop(self):
@@ -38,9 +38,10 @@ class AudioComms(UDPReader.UDPReader):
         if self.record == 0:
             self.frames = []
             self.record = 1
-    
+
     def RecordStop(self, filename):
         if self.record == 1:
+            self.record = 0
             wf = wave.open(filename, 'wb')
             wf.setnchannels(1)
             wf.setsampwidth(self.pya.get_sample_size(pyaudio.paInt16))

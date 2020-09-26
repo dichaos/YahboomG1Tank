@@ -5,9 +5,6 @@ import pyaudio
 import SensorReader
 import base64
 
-#FS = 44100  # Hz
-#CHUNKSZ = 4096  # samples
-
 def py_error_handler(filename, line, function, err, fmt):
     return
 
