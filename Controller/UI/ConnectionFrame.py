@@ -7,6 +7,7 @@ import Comms.InfraredComms as i
 import Comms.MovementComms as m
 import Comms.AudioComms as a
 import tkinter as tk
+import traceback
 import os
 
 class ConnectionFrame(tk.LabelFrame):
@@ -48,30 +49,39 @@ class ConnectionFrame(tk.LabelFrame):
         self.IPEntry.delete(0,"end")
         self.IPEntry.insert(0, self.ip)
 
-        movement = m.MovementComms(self.ip, 9999)
-
+        self.movement = m.MovementComms(self.ip, 9999)
+        self.movement.start()
         
-        movement.start()
-        
-
-        app.MovementPanel.SetMovement(movement)
-        app.ultrasonicPanel.SetMovement(movement)
-        app.ledColorFrame.SetMovement(movement)
-        app.CameraFrame.SetMovement(movement)
-        app.BuzzerFrame.SetMovement(movement)
+        app.MovementPanel.SetMovement(self.movement)
+        app.ultrasonicPanel.SetMovement(self.movement)
+        app.ledColorFrame.SetMovement(self.movement)
+        app.CameraFrame.SetMovement(self.movement)
+        app.BuzzerFrame.SetMovement(self.movement)
         
         #create read comms
-        ultrasonicStream = u.UltrasonicComms(1000, app)
-        infraredStream = i.InfraredComms(1001, app)
-        videoStream = c.VideoComms(1002, app)
-        audioStream = a.AudioComms(1003)
+        self.ultrasonicStream = u.UltrasonicComms(1000, app)
+        self.infraredStream = i.InfraredComms(1001, app)
+        self.videoStream = c.VideoComms(1002, app)
+        self.audioStream = a.AudioComms(1003)
 
-        videoStream.start()
-        ultrasonicStream.start()
-        infraredStream.start()
-        audioStream.start()
-        app.RecordVideoFrame.SetAudio(audioStream)
+        self.videoStream.start()
+        self.ultrasonicStream.start()
+        self.infraredStream.start()
+        self.audioStream.start()
+        app.RecordVideoFrame.SetAudio(self.audioStream)
+        app.RecordVideoFrame.SetVideo(self.videoStream)
 
+    def Close(self):
+        try:
+            self.ultrasonicStream.stop()
+            self.infraredStream.stop()
+            self.videoStream.stop()
+            self.audioStream.stop()
+            self.movement.stop()
+        except Exception as e:
+            traceback.print_exc()
+            print(e)
+        
         
         
         

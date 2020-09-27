@@ -3,12 +3,13 @@ import traceback
 import pyaudio
 import wave
 import Comms.Sockets.UDPReader as UDPReader
+import Comms.Recorder.Recorder as Recorder
 
-class AudioComms(UDPReader.UDPReader):
+class AudioComms(UDPReader.UDPReader, Recorder.Recorder):
     def __init__(self, port):
-        super(AudioComms, self).__init__(port)
+        super().__init__(port)
+        super(UDPReader.UDPReader, self).__init__()
         self.FS = 44100  # Hz
-        self.record = 0
         self.frames = []
         
     def Process(self, value):
@@ -16,7 +17,6 @@ class AudioComms(UDPReader.UDPReader):
             audio = base64.b64decode(value)
 
             if self.record == 1:
-                print("recoded audio")
                 self.frames.append(audio)
 
             self.stream.write(audio)
@@ -35,16 +35,17 @@ class AudioComms(UDPReader.UDPReader):
         self.pya.terminate()
 
     def Record(self):
+        super().Record()
+        
         if self.record == 0:
             self.frames = []
-            self.record = 1
-
-    def RecordStop(self, filename):
-        if self.record == 1:
-            self.record = 0
-            wf = wave.open(filename, 'wb')
-            wf.setnchannels(1)
-            wf.setsampwidth(self.pya.get_sample_size(pyaudio.paInt16))
-            wf.setframerate(44100)
-            wf.writeframes(b''.join(self.frames))
-            wf.close()
+            
+    def RecordStop(self):
+        super().RecordStop()
+        
+        wf = wave.open("Audio.wav", 'wb')
+        wf.setnchannels(1)
+        wf.setsampwidth(self.pya.get_sample_size(pyaudio.paInt16))
+        wf.setframerate(44100)
+        wf.writeframes(b''.join(self.frames))
+        wf.close()

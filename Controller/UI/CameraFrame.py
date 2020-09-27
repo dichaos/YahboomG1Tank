@@ -41,6 +41,7 @@ class CameraFrame(LabelFrame):
         self.movementComms = movementComms
         
     def new_image(self, LastImage):
+
         if(self.LastImage is not None):
             self.LastImage = LastImage
         else:
@@ -48,8 +49,10 @@ class CameraFrame(LabelFrame):
             self.video_stream()
 
     def video_stream(self, width = 480, height = 640):
-        cv_image = cv2.cvtColor(self.LastImage, cv2.COLOR_BGR2RGB)
+        #im = Image.fromarray(self.LastImage)
+        #print(im.verify())
         
+        cv_image = cv2.cvtColor(self.LastImage, cv2.COLOR_BGR2RGB)
         cv_image = FaceDetection.detect(cv_image)
 
         pil_image = Image.fromarray(cv_image)

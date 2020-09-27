@@ -1,5 +1,7 @@
 from tkinter import *
+import subprocess
 import tkinter as tk
+import os
 
 class RecordVideoFrame(tk.LabelFrame):
     def __init__(self, master):
@@ -18,6 +20,9 @@ class RecordVideoFrame(tk.LabelFrame):
     def SetAudio(self, AudioComms):
         self.AudioComms = AudioComms
 
+    def SetVideo(self, VideoComms):
+        self.VideoComms = VideoComms
+
     def Mute(self):
         if self.mute == 0:
             self.AudioComms.stop()
@@ -31,10 +36,20 @@ class RecordVideoFrame(tk.LabelFrame):
     def Record(self):
         if self.recording == 0:
             self.AudioComms.Record()
+            self.VideoComms.Record()
             self.recordButton.configure(relief='sunken')
             self.recording = 1
         elif self.recording == 1:
-            self.AudioComms.RecordStop('Audio.wav')
-            #self.AudioComms.start()
-            self.recordButton.configure(relief='raised')
+            self.AudioComms.RecordStop()
+            self.VideoComms.RecordStop()
+            
+            os.remove("video.mp4")
+            
+            cmd = 'ffmpeg -i video.mpeg -i audio.wav -c:v copy -c:a aac video.mp4'
+            subprocess.call(cmd, shell=True)
             self.recording = 0
+
+            os.remove("video.mpeg")
+            os.remove("audio.wav")
+
+            self.recordButton.configure(relief='raised')

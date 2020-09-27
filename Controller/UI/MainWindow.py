@@ -108,3 +108,6 @@ class MainWindow(Frame):
         l.config(font=("Courier", 30))
         l.pack(fill="none", expand=True)
         return win
+
+    def close(self):
+        self.ConnectionPanel.Close()
