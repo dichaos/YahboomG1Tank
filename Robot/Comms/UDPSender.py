@@ -31,6 +31,3 @@ class UDPSender:
             self.s.sendto(struct.pack("B", count)+value[array_pos_start:array_pos_end], (self.ip, self.port))
             array_pos_start = array_pos_end
             count -= 1
-
-    def Stop(self):
-        self.s.close()

@@ -13,18 +13,22 @@ import os
 class ConnectionFrame(tk.LabelFrame):
     def __init__(self, master):
         super(ConnectionFrame, self).__init__(master, text = "Connection")
-
+        self.MainWindow = master
         lb1 = Label(self, text ='IP:')
         lb1.grid(row = 0, column = 0, sticky = E, padx= 3, pady = 3)
 
         self.IPEntry = Entry(self, width = 15)
         self.IPEntry.grid(row = 0, column = 1, padx= 3, pady = 3)
 
-        connectionButton = Button(self,  text = 'Save', width = 10, command=self.Save)
+        connectionButton = Button(self,  text = 'Connect', width = 10, command=self.Connect)
         connectionButton.grid(row = 0, column = 2, padx= 3, pady = 3)
         self.SetIp()
 
-    def Save(self):
+    def Connect(self):
+        self.SetConfig()
+        self.CreateConnections()
+
+    def SetConfig(self):
         f = open("OnDesktop.config", "r")
         contents = f.readlines()
         f.close()
@@ -49,36 +53,41 @@ class ConnectionFrame(tk.LabelFrame):
         self.IPEntry.delete(0,END)
         self.IPEntry.insert(END, self.ip)
 
-    def CreateConnections(self, app):
+    def CreateConnections(self):
         self.movement = m.MovementComms(self.ip, 9999)
-        self.movement.start()
-        
-        app.MovementPanel.SetMovement(self.movement)
-        app.ultrasonicPanel.SetMovement(self.movement)
-        app.ledColorFrame.SetMovement(self.movement)
-        app.CameraFrame.SetMovement(self.movement)
-        app.BuzzerFrame.SetMovement(self.movement)
-        
-        #create read comms
-        self.ultrasonicStream = u.UltrasonicComms(1000, app)
-        self.infraredStream = i.InfraredComms(1001, app)
-        self.videoStream = c.VideoComms(1002, app)
+
+        self.MainWindow.MovementPanel.SetMovement(self.movement)
+        self.MainWindow.ultrasonicPanel.SetMovement(self.movement)
+        self.MainWindow.ledColorFrame.SetMovement(self.movement)
+        self.MainWindow.CameraFrame.SetMovement(self.movement)
+        self.MainWindow.BuzzerFrame.SetMovement(self.movement)
+
+        self.ultrasonicStream = u.UltrasonicComms(1000, self.MainWindow)
+        self.infraredStream = i.InfraredComms(1001, self.MainWindow)
+        self.videoStream = c.VideoComms(1002, self.MainWindow)
         self.audioStream = a.AudioComms(1003)
 
+        self.movement.start()
         self.videoStream.start()
+        self.audioStream.start()
         self.ultrasonicStream.start()
         self.infraredStream.start()
-        self.audioStream.start()
-        app.RecordVideoFrame.SetAudio(self.audioStream)
-        app.RecordVideoFrame.SetVideo(self.videoStream)
+        
+        self.MainWindow.RecordVideoFrame.SetAudio(self.audioStream)
+        self.MainWindow.RecordVideoFrame.SetVideo(self.videoStream)
 
     def Close(self):
         try:
-            self.ultrasonicStream.stop()
-            self.infraredStream.stop()
-            self.videoStream.stop()
-            self.audioStream.stop()
             self.movement.stop()
+            print("Movement stopped")
+            self.videoStream.stop()
+            print("Video stopped")
+            self.audioStream.stop()
+            print("Audio stopped")
+            self.ultrasonicStream.stop()
+            print("Ultrasonic stopped")
+            self.infraredStream.stop()
+            print("Infrared stopped")
         except Exception as e:
             traceback.print_exc()
             print(e)

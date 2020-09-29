@@ -20,7 +20,6 @@ class Servo:
             pulse = 0
 
         self.pulse_value = pulse
-        
         self.pig.set_servo_pulsewidth(self.servoPin, pulse)
         time.sleep(1)
 

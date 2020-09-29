@@ -9,6 +9,7 @@ import GPIOs.TrackSensor as TrackSensor
 import GPIOs.Ultrasonic as Ultrasonic
 import Recorders.MicrophoneRecorder as MicrophoneRecorder
 import Recorders.VideoRecorder as VideoRecorder
+import traceback
 
 buzzer = Buzzer.Buzzer()
 led = LEDs.LEDs()
@@ -28,11 +29,7 @@ def Cleanup():
     cameraHorizontal.stop()
     cameraVertical.stop()
     movement.stop()
-    trackSensor.stop()
-    ultrasonicSensor.stop()
-    videoRecorder.stop()
-    audioRecorder.stop()
-
+    
 def Start():
     
     ultrasonicSensor.start()
@@ -41,31 +38,36 @@ def Start():
     trackSensor.start()
 
 def Process(frame):
-    if frame==b"Move Stopped":
-        movement.stop()
-    elif frame==b"Move Forward":
-        movement.Forward()
-    elif frame==b"Move Backwards":
-        movement.Backwards()
-    elif frame==b"Turn Left":
-        movement.TurnLeft()
-    elif frame==b"Turn Right":
-        movement.TurnRight()
-    elif frame.startswith(b'CameraLeftRight'):
-        cameraHorizontal.Set(float(frame.split(b":")[1]))
-    elif frame.startswith(b'CameraUpDown'):
-        cameraVertical.Set(float(frame.split(b":")[1]))
-    elif frame.startswith(b'Ultra:'):
-        ultrasonicMovement.Set(float(frame.split(b":")[1]))
-    elif frame.startswith(b'Color:'):
-        colors = frame.split(b":")[1]
-        led.SetRGB(int(colors.split(b",")[0]),int(colors.split(b",")[1]),int(colors.split(b",")[2]))
-    elif frame==b"BuzzOn":
-        buzzer.Buzz()
-    elif frame==b"BuzzOff":
-        buzzer.stop()
-    elif frame.startswith(b'Speed:'):
-        movement.SetSpeed(int(frame.split(b":")[1]))
+    print(frame)
+    try:
+        if frame==b"Move Stopped":
+            movement.stop()
+        elif frame==b"Move Forward":
+            movement.Forward()
+        elif frame==b"Move Backwards":
+            movement.Backwards()
+        elif frame==b"Turn Left":
+            movement.TurnLeft()
+        elif frame==b"Turn Right":
+            movement.TurnRight()
+        elif frame.startswith(b'CameraLeftRight'):
+            cameraHorizontal.Set(float(frame.split(b":")[1]))
+        elif frame.startswith(b'CameraUpDown'):
+            cameraVertical.Set(float(frame.split(b":")[1]))
+        elif frame.startswith(b'Ultra:'):
+            ultrasonicMovement.Set(float(frame.split(b":")[1]))
+        elif frame.startswith(b'Color:'):
+            colors = frame.split(b":")[1]
+            led.SetRGB(int(colors.split(b",")[0]),int(colors.split(b",")[1]),int(colors.split(b",")[2]))
+        elif frame==b"BuzzOn":
+            buzzer.Buzz()
+        elif frame==b"BuzzOff":
+            buzzer.stop()
+        elif frame.startswith(b'Speed:'):
+            movement.SetSpeed(int(frame.split(b":")[1]))
+    except Exception as e:
+        traceback.print_exc()
+        print(e)
 
 class CommsManager(socketserver.StreamRequestHandler):
     def handle(self):
@@ -90,4 +92,4 @@ class CommsManager(socketserver.StreamRequestHandler):
                 break
             
         print(f'Closed: {self.client_address[0]}')
-        Cleanup()
+        

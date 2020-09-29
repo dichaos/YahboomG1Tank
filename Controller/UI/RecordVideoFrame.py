@@ -40,16 +40,30 @@ class RecordVideoFrame(tk.LabelFrame):
             self.recordButton.configure(relief='sunken')
             self.recording = 1
         elif self.recording == 1:
+            fileName = self.GetFileName()
+
             self.AudioComms.RecordStop()
             self.VideoComms.RecordStop()
             
-            os.remove("video.mp4")
-            
-            cmd = 'ffmpeg -i video.mpeg -i audio.wav -c:v copy -c:a aac video.mp4'
+            cmd = "ffmpeg -i video.mpeg -i audio.wav -c:v copy -c:a aac "+fileName
             subprocess.call(cmd, shell=True)
-            self.recording = 0
 
+            self.recording = 0
+            self.DeleteTempFiles()
+            self.recordButton.configure(relief='raised')
+
+    def DeleteTempFiles(self):
+        if os.path.exists("video.mpeg"):
             os.remove("video.mpeg")
+
+        if os.path.exists("audio.wav"):
             os.remove("audio.wav")
 
-            self.recordButton.configure(relief='raised')
+    def GetFileName(self):
+        filename = "video.mp4"
+        count = 0
+        while os.path.exists(filename) == True:
+            count = count + 1
+            filename = "video"+str(count)+".mp4"
+        
+        return filename

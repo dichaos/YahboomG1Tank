@@ -6,7 +6,6 @@ import sys
 
 root = Tk()
 
-#create window
 root.geometry("1024x600")
 #root.geometry("800x480")
 root.resizable(False, False)
@@ -18,11 +17,11 @@ app = mainWindow.MainWindow(root)
 
 def on_closing():
     app.close()
+    print("Connections closed")
     root.destroy()
-    sys.exit()
+    print("Root destroyed")
+    #sys.exit()
+    #print("System exit")
 
 root.protocol("WM_DELETE_WINDOW", on_closing)
-
 root.mainloop()
-
-

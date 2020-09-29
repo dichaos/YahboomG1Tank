@@ -55,9 +55,6 @@ class MainWindow(Frame):
         self.CameraFrame = CameraFrame(self)
         self.CameraFrame.grid(row =0, column = 1, rowspan=5, sticky="nsew")
 
-        self.disableChildren(self)
-        self.DoTheConnection()
-        
     def newImage(self, image):
         self.CameraFrame.new_image(LastImage=image)
     
@@ -66,36 +63,6 @@ class MainWindow(Frame):
 
     def TrackValue(self, value):
         self.trackSensorFrame.trackValue(value)
-
-    def DoTheConnection(self):
-        thread = threading.Thread(target=self.Connect)
-        thread.daemon = True       
-        thread.start() 
-
-    def Connect(self):
-        wait = self.wait()
-        self.ConnectionPanel.CreateConnections(self)
-        wait.destroy()
-        self.enableChildren(self)
-
-    def disableChildren(self, parent):
-        for child in parent.winfo_children():
-            wtype = child.winfo_class()
-            if wtype not in ('Frame','Labelframe'):
-                try:
-                    child.configure(state='disable')
-                except:
-                    pass
-            else:
-                self.disableChildren(child)
-    
-    def enableChildren(self, parent):
-        for child in parent.winfo_children():
-            wtype = child.winfo_class()
-            if wtype not in ('Frame','Labelframe'):
-                child.configure(state='normal')
-            else:
-                self.enableChildren(child)
     
     def wait(self):
         win = Toplevel(self)
