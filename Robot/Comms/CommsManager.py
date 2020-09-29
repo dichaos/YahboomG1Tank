@@ -1,9 +1,4 @@
-import socket
 import sys
-import base64
-import traceback
-import threading
-import numpy as np
 import socketserver
 import Comms.UDPSender as UDPServer
 import GPIOs.Buzzer as Buzzer
@@ -84,11 +79,15 @@ class CommsManager(socketserver.StreamRequestHandler):
         Start()
 
         while True:
-            data = self.rfile.readline()
-            if not data:
+            try:
+                data = self.rfile.readline()
+                
+                if not data:
+                    break
+
+                Process(data.strip())
+            except ConnectionResetError as cre:
                 break
-
-            Process(data.strip())
-
-        print(f'Closed: {client}')
+            
+        print(f'Closed: {self.client_address[0]}')
         Cleanup()

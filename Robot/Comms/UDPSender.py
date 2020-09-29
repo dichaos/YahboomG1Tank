@@ -19,7 +19,7 @@ class UDPSender:
 
     def Send(self, value):
 
-        if self.ip == "":
+        if self.ip == "" or value is None:
             return
 
         size = len(value)
