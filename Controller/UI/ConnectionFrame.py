@@ -22,6 +22,7 @@ class ConnectionFrame(tk.LabelFrame):
 
         connectionButton = Button(self,  text = 'Save', width = 10, command=self.Save)
         connectionButton.grid(row = 0, column = 2, padx= 3, pady = 3)
+        self.SetIp()
 
     def Save(self):
         f = open("OnDesktop.config", "r")
@@ -35,8 +36,7 @@ class ConnectionFrame(tk.LabelFrame):
         f.write(contents)
         f.close()
 
-    def CreateConnections(self, app):
-
+    def SetIp(self):
         with open ("OnDesktop.config", "r") as myfile:
             line = myfile.readlines()[0]
             
@@ -46,9 +46,10 @@ class ConnectionFrame(tk.LabelFrame):
             elif line.startswith("IP"):
                 self.ip = line.split("=")[1].strip()
 
-        self.IPEntry.delete(0,"end")
-        self.IPEntry.insert(0, self.ip)
+        self.IPEntry.delete(0,END)
+        self.IPEntry.insert(END, self.ip)
 
+    def CreateConnections(self, app):
         self.movement = m.MovementComms(self.ip, 9999)
         self.movement.start()
         
@@ -81,7 +82,3 @@ class ConnectionFrame(tk.LabelFrame):
         except Exception as e:
             traceback.print_exc()
             print(e)
-        
-        
-        
-        
