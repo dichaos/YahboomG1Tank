@@ -19,18 +19,14 @@ class AudioComms(UDPReader.UDPReader, Recorder.Recorder):
         self.frames = []
         
     def Process(self, value):
-        print("Received audio")
         try:
             audio = base64.b64decode(value)
 
-            print("convert to base64")
             if self.record == 1:
                 self.frames.append(audio)
 
-            print("writing to stream ")
             self.stream.write(audio, self.chunk)
 
-            print("Audio processed")
         except Exception as e:
             traceback.print_exc()
             print(e)
@@ -43,17 +39,13 @@ class AudioComms(UDPReader.UDPReader, Recorder.Recorder):
             print("===============Audio device====================")
             for ii in range(self.pya.get_device_count()):
                 print(self.pya.get_device_info_by_index(ii).get('name'))
-            
-            #print(self.pya.get_device_info_by_index(0))
             print("-----------------------------------------------")
 
             self.stream = self.pya.open(format=self.resolution,
                                         rate=self.rate,  
                                         channels=self.channels, 
-                                        output=True, 
-                                        input=False,
-                                        output_device_index = 0)
-            self.stream.start_stream()
+                                        output=True)
+
             super(AudioComms, self).start()
         except Exception as e:
             traceback.print_exc()
