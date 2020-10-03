@@ -31,7 +31,11 @@ class CameraFrame(LabelFrame):
 
         self.Video = Label(self, anchor ='nw',padx=0, pady=0)
         self.Video.grid(row=1, column=1, sticky='nsew',padx=5, pady=5)
-        
+
+        self.FaceRecognitionOpenCV = IntVar()
+        self.OpenCVCheckBox = Checkbutton(self, text="OpenCV face detection", variable=self.FaceRecognitionOpenCV, font=("Helvetica", 14))
+        self.OpenCVCheckBox.grid(row = 2, column=0, columnspan=2, sticky = NW)
+
         self.bind('<Configure>', self.resize)
 
         imgtk = ImageTk.PhotoImage(image= self.empty_image(480,640))
@@ -55,7 +59,9 @@ class CameraFrame(LabelFrame):
 
     def video_stream(self, width = 480, height = 640):
         cv_image = cv2.cvtColor(self.LastImage, cv2.COLOR_BGR2RGB)
-        cv_image = FaceDetection.detect(cv_image)
+        
+        if self.FaceRecognitionOpenCV.get() == 1:
+            cv_image = FaceDetection.detect(cv_image)
 
         pil_image = Image.fromarray(cv_image)
 
@@ -99,3 +105,4 @@ class CameraFrame(LabelFrame):
         self.VerticalSlider.set(90)
         self.sendUpdateHorizontalValue()
         self.sendUpdateVerticalValue()
+
