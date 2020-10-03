@@ -62,6 +62,7 @@ class RecordVideoFrame(tk.LabelFrame):
     def GetFileName(self):
         filename = "video.mp4"
         count = 0
+        
         while os.path.exists(filename) == True:
             count = count + 1
             filename = "video"+str(count)+".mp4"

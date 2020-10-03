@@ -62,10 +62,10 @@ class ConnectionFrame(tk.LabelFrame):
         self.MainWindow.CameraFrame.SetMovement(self.movement)
         self.MainWindow.BuzzerFrame.SetMovement(self.movement)
 
-        self.ultrasonicStream = u.UltrasonicComms(1000, self.MainWindow)
-        self.infraredStream = i.InfraredComms(1001, self.MainWindow)
-        self.videoStream = c.VideoComms(1002, self.MainWindow)
-        self.audioStream = a.AudioComms(1003)
+        self.ultrasonicStream = u.UltrasonicComms(2000, self.MainWindow)
+        self.infraredStream = i.InfraredComms(2001, self.MainWindow)
+        self.videoStream = c.VideoComms(2002, self.MainWindow)
+        self.audioStream = a.AudioComms(2003)
 
         self.movement.start()
         self.videoStream.start()

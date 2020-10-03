@@ -16,3 +16,5 @@ class VideoRecorder(SensorReader.SensorReader):
             ncode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 90]
             encoded, buffer = cv2.imencode('.jpg', frame, ncode_param)
             return base64.b64encode(buffer)
+        else:
+            print("failed to grab frame")

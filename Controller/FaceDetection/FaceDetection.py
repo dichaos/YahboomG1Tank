@@ -1,8 +1,14 @@
 import cv2
 import os
+from sys import platform
 
 def detect(image):
-    path = os.getcwd()+"\\FaceDetection\\"
+    path = os.getcwd()
+    
+    if platform == "win32":
+        path = path + "\\FaceDetection\\"
+    else:
+        path = path +"/FaceDetection/"
         
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     haar_cascade_face = cv2.CascadeClassifier(path+"haarcascade_frontalface_default.xml")

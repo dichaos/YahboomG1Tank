@@ -24,9 +24,9 @@ class MicrophoneRecorder(SensorReader.SensorReader):
 
         form_1 = pyaudio.paInt16 # 16-bit resolution
         chans = 1 # 1 channel
-        samp_rate = 44100 # 44.1kHz sampling rate
+        samp_rate = 48000 # 44.1kHz sampling rate
         self.chunk = 8192 # 2^12 samples for buffer
-        record_secs = 3 # seconds to record
+        record_secs = 1 # seconds to record
         dev_index = 0 # device index found by p.get_device_info_by_index(ii)
 
         #print("===============Audio device====================")
@@ -34,7 +34,13 @@ class MicrophoneRecorder(SensorReader.SensorReader):
         #print("-----------------------------------------------")
         #self.getaudiodevices()
 
-        self.stream = self.p.open(format = form_1,rate = samp_rate, channels = chans, input_device_index = dev_index,input = True,  frames_per_buffer=self.chunk)
+        self.stream = self.p.open(format = form_1,
+                                    rate = samp_rate, 
+                                    channels = chans, 
+                                    input_device_index = dev_index, 
+                                    input = True, 
+                                    frames_per_buffer=self.chunk)
+
         self.port = port
 
     def getaudiodevices(self):

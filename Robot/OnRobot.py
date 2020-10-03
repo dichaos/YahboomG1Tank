@@ -17,9 +17,9 @@ faulthandler.enable()
 robotSocketServer = RobotSocketServer.RobotSocketServer()
 robotSocketServer.start(9999)
 
-CommsManager.buzzer.Buzz()
-time.sleep(0.5)
-CommsManager.buzzer.stop()
+#CommsManager.buzzer.Buzz()
+#time.sleep(0.5)
+#CommsManager.buzzer.stop()
 print("All started")
 
 atexit.register(cleanup, robotSocketServer)

@@ -7,7 +7,6 @@ class SocketClient:
     def __init__(self, ip, port):
         self.ip = ip
         self.port = port
-        self.loop = 1
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     def start(self):
@@ -18,5 +17,9 @@ class SocketClient:
         self.socket.send((value+"\n").encode())
 
     def stop(self):
-        self.loop = 0
+        try:
+            self.socket.shutdown(socket.SHUT_RDWR)
+        except (socket.error, OSError, ValueError):
+            pass
+
         self.socket.close()

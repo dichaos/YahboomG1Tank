@@ -6,6 +6,8 @@ from tkinter import *
 from tkinter import Tk, LabelFrame, Label
 from PIL import *
 import FaceDetection.FaceDetection as FaceDetection
+import traceback
+from sys import platform
 
 
 class CameraFrame(LabelFrame):
@@ -41,18 +43,20 @@ class CameraFrame(LabelFrame):
         self.movementComms = movementComms
         
     def new_image(self, LastImage):
-
-        if(self.LastImage is not None):
-            self.LastImage = LastImage
-        else:
-            self.LastImage = LastImage
-            self.video_stream()
+        try:
+            if(self.LastImage is not None):
+                self.LastImage = LastImage
+            else:
+                self.LastImage = LastImage
+                self.video_stream()
+        except Exception as ex:
+            traceback.print_exc()
+            print(ex)
 
     def video_stream(self, width = 480, height = 640):
-        #im = Image.fromarray(self.LastImage)
-        #print(im.verify())
-        
         cv_image = cv2.cvtColor(self.LastImage, cv2.COLOR_BGR2RGB)
+        
+        #if platform == "win32":
         cv_image = FaceDetection.detect(cv_image)
 
         pil_image = Image.fromarray(cv_image)
