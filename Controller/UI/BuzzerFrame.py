@@ -3,9 +3,9 @@ import tkinter as tk
 
 class BuzzerFrame(tk.LabelFrame):
     def __init__(self, master):
-        super(BuzzerFrame, self).__init__(master, text = "Buzzer")
+        super(BuzzerFrame, self).__init__(master, text = "Buzzer", font=("Helvetica", 14))
         self.movementComms = None
-        upButton = Button(self, text='Annoy')
+        upButton = Button(self, text='Annoy', font=("Helvetica", 14), width=17)
         upButton.pack(fill=BOTH, expand=True)
 
         upButton.bind('<ButtonPress-1>',self.BuzzOn)

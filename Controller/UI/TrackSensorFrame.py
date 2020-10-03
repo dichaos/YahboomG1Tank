@@ -4,7 +4,7 @@ from UI.TriangleButton import *
 
 class TrackSensorFrame(tk.LabelFrame):
     def __init__(self, master):
-        super(TrackSensorFrame, self).__init__(master, width=310, height = 40, text = "Tracking Sensor")
+        super(TrackSensorFrame, self).__init__(master,  height = 75, text = "Tracking Sensor", font=("Helvetica", 14))
 
         self.grid_propagate('false')
         self.grid_columnconfigure(0, weight=1)
@@ -12,10 +12,10 @@ class TrackSensorFrame(tk.LabelFrame):
         self.grid_columnconfigure(2, weight=1)
         self.grid_columnconfigure(3, weight=1)
 
-        self.First = Label(self, text= "1", borderwidth=2, relief="groove")
-        self.Second = Label(self, text= "2", borderwidth=2, relief="groove")
-        self.Third = Label(self, text= "3", borderwidth=2, relief="groove")
-        self.Fourth = Label(self, text= "4", borderwidth=2, relief="groove")
+        self.First = Label(self, text= "1", borderwidth=2, relief="groove", font=("Helvetica", 14), height=2)
+        self.Second = Label(self, text= "2", borderwidth=2, relief="groove", font=("Helvetica", 14))
+        self.Third = Label(self, text= "3", borderwidth=2, relief="groove", font=("Helvetica", 14))
+        self.Fourth = Label(self, text= "4", borderwidth=2, relief="groove", font=("Helvetica", 14))
 
         self.First.grid(row = 0, column = 0, sticky = NSEW)
         self.Second.grid(row = 0, column = 1, sticky = NSEW)

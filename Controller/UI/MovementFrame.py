@@ -4,13 +4,13 @@ from UI.TriangleButton import *
 
 class MovementFrame(tk.LabelFrame):
     def __init__(self, master):
-        super(MovementFrame, self).__init__(master, width=235, height=145, text="Tank Movement")
+        super(MovementFrame, self).__init__(master, width=235, height=145, text="Tank Movement", font=("Helvetica", 14))
         self.movementComms = None
 
         self._job = None
         self.root = master
 
-        movementLabelFrame = LabelFrame(self, width = 150, height = 150, borderwidth=0)
+        movementLabelFrame = LabelFrame(self, width = 200, height = 200, borderwidth=0)
 
         upButton = TriangleButton(movementLabelFrame, 'up')
         downButton = TriangleButton(movementLabelFrame, 'down')
@@ -33,10 +33,10 @@ class MovementFrame(tk.LabelFrame):
         rightButton.grid(row =1, column = 2, sticky=NSEW)
         
         speedLabelFrame = LabelFrame(self, borderwidth=0, padx = 0, pady= 0)
-        self.SpeedLabel = Label(speedLabelFrame, text= "Speed")
+        self.SpeedLabel = Label(speedLabelFrame, text= "Speed", font=("Helvetica", 14))
         self.SpeedLabel.pack(side=TOP, fill=BOTH)
         
-        self.slider = Scale(speedLabelFrame, from_=100, to=0, command=self.setSpeed)
+        self.slider = Scale(speedLabelFrame, from_=100, to=0, width=40, command=self.setSpeed)
         self.slider.pack(side=BOTTOM, fill=Y, expand=True, anchor = CENTER)
         self.slider.set(50)
 

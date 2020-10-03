@@ -5,13 +5,13 @@ import os
 
 class RecordVideoFrame(tk.LabelFrame):
     def __init__(self, master):
-        super(RecordVideoFrame, self).__init__(master, text = "Audio")
+        super(RecordVideoFrame, self).__init__(master, text = "Video", font=("Helvetica", 14))
         self.AudioComms = None
 
-        self.muteButton = Button(self, text='Mute', command = self.Mute)
+        self.muteButton = Button(self, text='Mute', font=("Helvetica", 14), command = self.Mute, width=17, height=3)
         self.muteButton.pack(fill=BOTH, expand=True)
 
-        self.recordButton = Button(self, text='Record', command = self.Record)
+        self.recordButton = Button(self, text='Record', font=("Helvetica", 14), command = self.Record, width=17, height=3)
         self.recordButton.pack(fill=BOTH, expand=True)
 
         self.mute = 0

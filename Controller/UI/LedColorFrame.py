@@ -3,27 +3,27 @@ import tkinter as tk
 
 class LedColorFrame(tk.LabelFrame):
     def __init__(self, master):
-        super(LedColorFrame, self).__init__(master, width= 310, height = 200, text = "Headlights")
+        super(LedColorFrame, self).__init__(master, text = "Headlights",  font=("Helvetica", 14))
         self.movementComms = None
         self._job = None
         self.root = master
 
-        self.Color = Label(self, text= "", borderwidth=2, relief="groove")
-        self.Red = Label(self, text= "", borderwidth=2, relief="groove")
-        self.Green = Label(self, text= "", borderwidth=2, relief="groove")
-        self.Blue = Label(self, text= "", borderwidth=2, relief="groove")
+        self.Color = Label(self, text= "", borderwidth=2, relief="groove", height=2)
+        self.Red = Label(self, text= "", borderwidth=2, relief="groove", height=2)
+        self.Green = Label(self, text= "", borderwidth=2, relief="groove", height=2)
+        self.Blue = Label(self, text= "", borderwidth=2, relief="groove", height=2)
         
-        self.R = Scale(self, from_=255, to=0, command=self.SetColor)
-        self.G = Scale(self, from_=255, to=0, command=self.SetColor)
-        self.B = Scale(self, from_=255, to=0, command=self.SetColor)
+        self.R = Scale(self, from_=255, to=0, width=35, command=self.SetColor,  font=("Helvetica", 8))
+        self.G = Scale(self, from_=255, to=0, width=35, command=self.SetColor,  font=("Helvetica", 8))
+        self.B = Scale(self, from_=255, to=0, width=35, command=self.SetColor,  font=("Helvetica", 8))
         
         self.Color.grid(row = 0, column = 0, columnspan = 3, sticky = NSEW)
         self.Red.grid(row = 1, column = 0, sticky= NSEW)
         self.Green.grid(row = 1, column = 1, sticky= NSEW)
         self.Blue.grid(row = 1, column = 2, sticky= NSEW)
-        self.R.grid(row = 2, column = 0, sticky = NSEW)
-        self.G.grid(row = 2, column = 1, sticky = NSEW)
-        self.B.grid(row = 2, column = 2, sticky = NSEW)
+        self.R.grid(row = 2, column = 0, sticky = NW)
+        self.G.grid(row = 2, column = 1, sticky = NW)
+        self.B.grid(row = 2, column = 2, sticky = NW)
     
     def SetMovement(self, movementComms):
         self.movementComms = movementComms

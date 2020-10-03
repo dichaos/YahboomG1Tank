@@ -7,7 +7,6 @@ import faulthandler;
 
 faulthandler.enable()
 root = Tk()
-#root.geometry("1024x600")
 root.geometry("1280x800")
 root.resizable(False, False)
 

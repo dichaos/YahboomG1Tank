@@ -12,15 +12,15 @@ import os
 
 class ConnectionFrame(tk.LabelFrame):
     def __init__(self, master):
-        super(ConnectionFrame, self).__init__(master, text = "Connection")
+        super(ConnectionFrame, self).__init__(master, text = "Connection", font=("Helvetica", 14))
         self.MainWindow = master
-        lb1 = Label(self, text ='IP:')
+        lb1 = Label(self, text ='IP:', font=("Helvetica", 14))
         lb1.grid(row = 0, column = 0, sticky = E, padx= 3, pady = 3)
 
-        self.IPEntry = Entry(self, width = 15)
+        self.IPEntry = Entry(self, width = 14, font=("Helvetica", 14))
         self.IPEntry.grid(row = 0, column = 1, padx= 3, pady = 3)
 
-        connectionButton = Button(self,  text = 'Connect', width = 10, command=self.Connect)
+        connectionButton = Button(self,  text = 'Connect', width = 10, height= 2, font=("Helvetica", 14), command=self.Connect)
         connectionButton.grid(row = 0, column = 2, padx= 3, pady = 3)
         self.SetIp()
 

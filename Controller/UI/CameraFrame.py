@@ -12,15 +12,15 @@ from sys import platform
 
 class CameraFrame(LabelFrame):
     def __init__(self, master):
-        super(CameraFrame, self).__init__(master, width = 300, height = 140, text = "Camera")
+        super(CameraFrame, self).__init__(master, width = 300, height = 140, text = "Camera", font=("Helvetica", 14))
         self.movementComms = None
         self._job1 = None
         self._job2 = None
         self.root = master
 
-        self.HorizontalSlider = Scale(self, from_=180, to=0, orient =HORIZONTAL, command=self.updateHorizontal, showvalue='false')
-        self.VerticalSlider = Scale(self, from_=180, to=0, command=self.updateVertical, showvalue='false')
-        self.CenterButton = Button(self, text="Center", command=self.center)
+        self.HorizontalSlider = Scale(self, from_=180, to=0, width=35, orient =HORIZONTAL, command=self.updateHorizontal, showvalue='false')
+        self.VerticalSlider = Scale(self, from_=180, to=0, width=35, command=self.updateVertical, showvalue='false')
+        self.CenterButton = Button(self, text="Center", command=self.center,  font=("Helvetica", 14))
         
         self.HorizontalSlider.grid(row = 0, column = 1, sticky = EW+S)
         self.VerticalSlider.grid(row = 1, column = 0, sticky = NS+E)
@@ -55,8 +55,6 @@ class CameraFrame(LabelFrame):
 
     def video_stream(self, width = 480, height = 640):
         cv_image = cv2.cvtColor(self.LastImage, cv2.COLOR_BGR2RGB)
-        
-        #if platform == "win32":
         cv_image = FaceDetection.detect(cv_image)
 
         pil_image = Image.fromarray(cv_image)

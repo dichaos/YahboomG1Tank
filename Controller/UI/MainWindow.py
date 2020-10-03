@@ -20,40 +20,33 @@ class MainWindow(Frame):
         self.master.iconphoto(False, tk.PhotoImage(file=os.path.join(location, 'robot.png')))
         self.master.title("Yahboom Tank Commander")
         
-        self.pack(fill=BOTH, expand=1)
+        self.pack(fill=BOTH)#, expand=1)
 
-        self.columnconfigure(1, weight = 2)
+        #self.columnconfigure(1, weight = 2)
 
         self.ConnectionPanel = ConnectionFrame(self)
-        self.ConnectionPanel.grid(row=0, column =0, sticky="nsew")
+        self.ConnectionPanel.grid(row=0, column =0, sticky="new",padx=2)
         
         self.MovementPanel = MovementFrame(self)
-        self.MovementPanel.grid(row = 1, column = 0, sticky = "nsew")
+        self.MovementPanel.grid(row = 1, column = 0, sticky = "new",padx=2)
         
         self.ultrasonicPanel = UltrasonicFrame(self)
-        self.ultrasonicPanel.grid(row = 2, column =0, sticky = "nw")
+        self.ultrasonicPanel.grid(row = 2, column =0, sticky = "new",padx=2)
 
         self.trackSensorFrame = TrackSensorFrame(self)
-        self.trackSensorFrame.grid(row = 3, column = 0, sticky ="nw")
+        self.trackSensorFrame.grid(row = 3, column = 0, sticky ="new",padx=2)
 
-
-        smallGroup = LabelFrame(self)
-        smallGroup.grid_rowconfigure(0, weight=1)
-        smallGroup.grid_columnconfigure(1, weight=1)
-        self.ledColorFrame = LedColorFrame(smallGroup)
-        self.ledColorFrame.grid(row = 0, column = 0, rowspan=2)
-
-
-        self.BuzzerFrame = BuzzerFrame(smallGroup)
-        self.BuzzerFrame.grid(row = 0, column = 1, sticky="new")
-
-        self.RecordVideoFrame = RecordVideoFrame(smallGroup)
-        self.RecordVideoFrame.grid(row=1, column = 1, sticky="new")
-
-        smallGroup.grid(row=4, column=0, sticky= "nsew")
-        
         self.CameraFrame = CameraFrame(self)
-        self.CameraFrame.grid(row =0, column = 1, rowspan=5, sticky="nsew")
+        self.CameraFrame.grid(row =0, column = 1, rowspan=4, sticky="nesw",padx=2)
+
+        self.RecordVideoFrame = RecordVideoFrame(self)
+        self.RecordVideoFrame.grid(row=0, column = 2, sticky="nw",padx=2)
+
+        self.ledColorFrame = LedColorFrame(self)
+        self.ledColorFrame.grid(row = 1, column = 2, sticky = "nw",padx=2)
+
+        self.BuzzerFrame = BuzzerFrame(self)
+        self.BuzzerFrame.grid(row = 3, column = 2, rowspan=2, sticky="nw",padx=2)        
 
     def newImage(self, image):
         self.CameraFrame.new_image(LastImage=image)
@@ -63,18 +56,6 @@ class MainWindow(Frame):
 
     def TrackValue(self, value):
         self.trackSensorFrame.trackValue(value)
-    
-    def wait(self):
-        win = Toplevel(self)
-        
-        win.geometry("800x300+300+300")
-        win.overrideredirect(1)
-        
-        win.lift()
-        l = Label(win, text='Wait to connect please...')
-        l.config(font=("Courier", 30))
-        l.pack(fill="none", expand=True)
-        return win
 
     def close(self):
         self.ConnectionPanel.Close()
