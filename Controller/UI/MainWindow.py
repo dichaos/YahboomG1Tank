@@ -59,3 +59,10 @@ class MainWindow(Frame):
 
     def close(self):
         self.ConnectionPanel.Close()
+
+    def ResetValues(self):
+        self.ledColorFrame.TurnOff()
+        self.CameraFrame.center()
+        self.MovementPanel.sendNewSpeed()
+        self.BuzzerFrame.BuzzOff(None)
+        self.ultrasonicPanel.center()

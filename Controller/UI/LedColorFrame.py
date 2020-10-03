@@ -21,12 +21,23 @@ class LedColorFrame(tk.LabelFrame):
         self.Red.grid(row = 1, column = 0, sticky= NSEW)
         self.Green.grid(row = 1, column = 1, sticky= NSEW)
         self.Blue.grid(row = 1, column = 2, sticky= NSEW)
+
         self.R.grid(row = 2, column = 0, sticky = NW)
         self.G.grid(row = 2, column = 1, sticky = NW)
         self.B.grid(row = 2, column = 2, sticky = NW)
+
+        self.turnOffButton = Button(self,  text = 'Turn Off', height= 1, font=("Helvetica", 14), command=self.TurnOff)
+        self.turnOffButton.grid(row = 3, column = 0, columnspan=3, sticky=NSEW)
     
     def SetMovement(self, movementComms):
         self.movementComms = movementComms
+
+    def TurnOff(self):
+        self.R.set(0)
+        self.G.set(0)
+        self.B.set(0)
+        self.SetColor(None)
+
 
     def SetColor(self, event):
         self.Color.config(bg="#{:02x}{:02x}{:02x}".format(self.R.get(), self.G.get(), self.B.get()))

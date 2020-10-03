@@ -18,14 +18,17 @@ class ConnectionFrame(tk.LabelFrame):
         lb1.grid(row = 0, column = 0, sticky = E, padx= 3, pady = 3)
 
         self.IPEntry = Entry(self, width = 14, font=("Helvetica", 14))
-        self.IPEntry.grid(row = 0, column = 1, padx= 3, pady = 3)
+        self.IPEntry.grid(row = 0, column = 0, padx= 3, pady = 3)
 
         connectionButton = Button(self,  text = 'Connect', width = 10, height= 2, font=("Helvetica", 14), command=self.Connect)
-        connectionButton.grid(row = 0, column = 2, padx= 3, pady = 3)
+        connectionButton.grid(row = 0, column = 1, padx= 3, pady = 3)
+        
+        self.Connection = Label(self, text= "Disconnected", bg="red", borderwidth=2, relief="groove", font=("Helvetica", 14), height=2)
+        self.Connection.grid(row=1, column=0, columnspan=2, sticky= NSEW)
+
         self.SetIp()
 
     def Connect(self):
-        self.SetConfig()
         self.CreateConnections()
 
     def SetConfig(self):
@@ -67,7 +70,7 @@ class ConnectionFrame(tk.LabelFrame):
         self.videoStream = c.VideoComms(2002, self.MainWindow)
         self.audioStream = a.AudioComms(2003)
 
-        self.movement.start()
+        con = self.movement.start()
         self.videoStream.start()
         self.audioStream.start()
         self.ultrasonicStream.start()
@@ -75,6 +78,12 @@ class ConnectionFrame(tk.LabelFrame):
         
         self.MainWindow.RecordVideoFrame.SetAudio(self.audioStream)
         self.MainWindow.RecordVideoFrame.SetVideo(self.videoStream)
+
+        if con==True:
+            print("Connected about to reset robot")
+            self.SetConfig()
+            self.Connection.config(bg="green", text="Connected")
+            self.MainWindow.ResetValues()
 
     def Close(self):
         try:

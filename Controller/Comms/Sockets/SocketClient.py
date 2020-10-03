@@ -10,8 +10,13 @@ class SocketClient:
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     def start(self):
-        self.socket.connect((self.ip, self.port))
-        self.socket.setblocking(False)
+        try:
+            self.socket.connect((self.ip, self.port))
+            self.socket.setblocking(False)
+        except:
+            return False
+            
+        return True
 
     def send(self, value):
         self.socket.send((value+"\n").encode())

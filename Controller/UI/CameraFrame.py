@@ -97,3 +97,5 @@ class CameraFrame(LabelFrame):
     def center(self):
         self.HorizontalSlider.set(90)
         self.VerticalSlider.set(90)
+        self.sendUpdateHorizontalValue()
+        self.sendUpdateVerticalValue()

@@ -34,6 +34,7 @@ class UltrasonicFrame(tk.LabelFrame):
 
     def center(self):
         self.slider.set(90)
+        self.sendUpdateValue()
 
     def sendUpdateValue(self):
         value = self.slider.get()
